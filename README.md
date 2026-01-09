@@ -2,7 +2,8 @@
 
 My personal macOS AI and ML dev setup.
 
-Reproduceable on macOS on Apple Silicon (M1, M2, M3, M4). Intel macs and other OS are not supported.
+Reproduceable on macOS on Apple Silicon (M1, M2, M3, M4). 
+Intel macs and other OS are not supported.
 
 Feel free to use and adapt.
 
@@ -51,13 +52,16 @@ Feel free to use and adapt.
 
 ## Usage
 
-On a fresh macOS install:
-
 ```bash
-xcode-select --install
 git clone https://github.com/dfranco-projects/dotfiles.git
 cd dotfiles
 make install
+```
+
+If on a fresh macOS run this before:
+
+```bash
+xcode-select --install
 ```
 
 ## WezTerm
