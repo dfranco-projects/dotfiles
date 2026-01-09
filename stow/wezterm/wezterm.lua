@@ -1,3 +1,4 @@
+local home = os.getenv("HOME")
 local wezterm = require("wezterm")
 local action = wezterm.action
 local config = wezterm.config_builder()
@@ -12,7 +13,7 @@ config.window_decorations = "RESIZE"
 config.background = {
     {
         source = {
-        File = wezterm.config_dir .. "/wezterm_bg_blurred.png",
+        File = home .. "/assets/wezterm_bg_blurred.png",
         },
     },
 }
