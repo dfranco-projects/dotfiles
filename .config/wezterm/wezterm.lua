@@ -1,6 +1,5 @@
 local home = os.getenv("HOME")
 local wezterm = require("wezterm")
-local action = wezterm.action
 local config = wezterm.config_builder()
 
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
@@ -13,7 +12,7 @@ config.window_decorations = "RESIZE"
 config.background = {
     {
         source = {
-        File = home .. "/assets/wezterm_bg_blurred.png",
+        File = home .. "/.config/wezterm/assets/wezterm_bg_blurred.png",
         },
     },
 }

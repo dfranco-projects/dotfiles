@@ -29,7 +29,6 @@ fi
 # ---------- Brew env ----------
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-brew update
 brew bundle --file=Brewfile
 
 # ---------- Oh My Zsh ----------
@@ -37,6 +36,12 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
     echo "Installing Oh My Zsh"
     RUNZSH=no CHSH=no KEEP_ZSHRC=yes \
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+# --------- Fix zsh completion permissions ---------
+if command -v compaudit >/dev/null 2>&1; then
+    echo "Fixing zsh completion permissions"
+    compaudit | xargs chmod g-w,o-w || true
 fi
 
 # ---------- Powerlevel10k ----------
@@ -51,9 +56,7 @@ brew install zsh-autosuggestions zsh-syntax-highlighting
 $(brew --prefix)/opt/fzf/install --no-update-rc --no-bash --no-fish
 
 # ---------- Apply dotfiles ----------
-cd stow
-stow zsh wezterm fd
-cd ..
+stow --adopt .
 
 echo "Setup complete"
 echo "Restart your terminal"
