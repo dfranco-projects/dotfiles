@@ -1,0 +1,15 @@
+# Core development stack
+brew "python"
+brew "python@3.13"
+brew "node"
+brew "uv"
+brew "pyenv"
+brew "poetry"
+brew "docker"
+brew "tmux"
+brew "htop"
+
+# Dev casks
+cask "visual-studio-code"
+cask "docker"
+cask "wezterm"

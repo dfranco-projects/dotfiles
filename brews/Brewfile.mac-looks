@@ -1,0 +1,4 @@
+# macOS UI/UX enhancements
+cask "rectangle"
+cask "stats"
+cask "hiddenbar"

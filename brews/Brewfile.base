@@ -1,0 +1,22 @@
+# Base tools - required for all setups
+brew "git"
+brew "curl"
+brew "wget"
+brew "make"
+
+# Shell
+brew "zsh"
+
+# Essential CLI tools
+brew "bat"
+brew "ripgrep"
+brew "fd"
+brew "jq"
+brew "tree"
+brew "fzf"
+brew "eza"
+brew "direnv"
+brew "stow"
+
+# Fonts
+cask "font-meslo-lg-nerd-font"

@@ -1,0 +1,3 @@
+# VS Code Extensions
+# Add one extension per line, use publisher.extension format
+# Example: ms-python.python

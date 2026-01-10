@@ -3,7 +3,7 @@ set -e
 
 # ---------- Load logging ----------
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/lib/log.sh"
+source "$DOTFILES_DIR/lib/log.sh"
 
 log "Starting personal macOS AI/ML dev setup"
 
@@ -97,6 +97,23 @@ success "fzf configured"
 log "Applying dotfiles with stow"
 stow --adopt .
 success "Dotfiles applied"
+
+# ---------- VS Code extensions ----------
+log "Installing VS Code extensions"
+
+if command -v code >/dev/null 2>&1; then
+    while read -r extension; do
+        [[ -z "$extension" || "$extension" == \#* ]] && continue
+        log "Installing VS Code extension: $extension"
+        code --install-extension "$extension" --force
+    done < "$DOTFILES_DIR/vscode/extensions.txt"
+
+    success "VS Code extensions installed"
+else
+    warn "VS Code CLI not found, skipping extensions install"
+    warn "Run: Shell Command: Install 'code' command in PATH"
+fi
+
 
 echo
 success "Setup complete"
