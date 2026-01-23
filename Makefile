@@ -47,6 +47,7 @@ install-dev: install-init
 	@chmod +x install/*.sh
 	@./install/dev.sh
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-dev"'
+	@uv python install 3.12
 
 install-mac-plugins: install-init
 	@chmod +x install/*.sh
