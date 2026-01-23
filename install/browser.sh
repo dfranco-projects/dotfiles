@@ -4,24 +4,24 @@
 set -e
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_base.sh"
 
-BROWSER="${1:-zen}"
+BROWSER="${1:-arc}"
 
 log "Installing browser: $BROWSER"
 
 case "$BROWSER" in
+    arc)
+        log "Installing Arc"
+        brew install arc
+        if [[ -d "$DOTFILES_DIR/.config/browsers/arc" ]]; then
+            log "Applying Arc browser configuration"
+            stow --adopt -t "$HOME/.config" -d "$DOTFILES_DIR/.config" browsers/arc || true
+        fi
+        ;;
     zen)
         install_brewfile "$DOTFILES_DIR/brews/Brewfile.browser" "Zen browser"
         if [[ -d "$DOTFILES_DIR/.config/browsers/zen" ]]; then
             log "Applying Zen browser configuration"
             stow --adopt -t "$HOME/.config" -d "$DOTFILES_DIR/.config" browsers/zen || true
-        fi
-        ;;
-    firefox)
-        log "Installing Firefox"
-        brew install firefox
-        if [[ -d "$DOTFILES_DIR/.config/browsers/firefox" ]]; then
-            log "Applying Firefox configuration"
-            stow --adopt -t "$HOME/.config" -d "$DOTFILES_DIR/.config" browsers/firefox || true
         fi
         ;;
     *)

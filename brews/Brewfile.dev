@@ -5,7 +5,6 @@ brew "node"
 brew "uv"
 brew "pyenv"
 brew "poetry"
-brew "docker"
 brew "tmux"
 brew "htop"
 

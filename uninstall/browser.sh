@@ -10,15 +10,21 @@ log "Uninstalling browser: $BROWSER"
 
 case "$BROWSER" in
     zen)
-        uninstall_brewfile "$DOTFILES_DIR/brews/Brewfile.browser" "Zen browser"
-        ;;
-    firefox)
-        log "Uninstalling Firefox"
-        if brew list firefox &>/dev/null; then
-            brew uninstall firefox
-            success "Firefox uninstalled"
+        log "Uninstalling Zen"
+        if brew list zen &>/dev/null; then
+            brew uninstall --cask zen
+            success "Zen uninstalled"
         else
-            log "Firefox not installed (skipping)"
+            log "Zen not installed (skipping)"
+        fi
+        ;;
+    arc)
+        log "Uninstalling Arc"
+        if brew list arc &>/dev/null; then
+            brew uninstall --cask arc
+            success "Arc uninstalled"
+        else
+            log "Arc not installed (skipping)"
         fi
         ;;
     *)

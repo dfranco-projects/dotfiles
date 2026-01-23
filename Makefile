@@ -1,7 +1,7 @@
-.PHONY: help install install-init install-dev install-mac-looks install-browser install-terminal install-vscode install-dotfiles terminal uninstall history clean-history
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles terminal uninstall history clean-history
 
 # Variables
-BROWSER ?= zen
+BROWSER ?= arc
 TERMINAL_THEME ?= default
 DOTFILES_DIR ?= $(shell pwd)
 
@@ -12,8 +12,8 @@ help:
 	@echo "  make install              - Full installation (init + dev + shell + dotfiles)"
 	@echo "  make install-init         - Initialize base (checks, Homebrew, base packages)"
 	@echo "  make install-dev          - Install development stack"
-	@echo "  make install-mac-looks    - Install macOS UI enhancements"
-	@echo "  make install-browser      - Install browser(s) (default: zen)"
+	@echo "  make install-mac-plugins    - Install macOS UI enhancements"
+	@echo "  make install-browser      - Install browser(s) (default: arc)"
 	@echo "  make install-terminal     - Configure WezTerm theme (default: default)"
 	@echo "  make install-vscode       - Install VS Code extensions"
 	@echo "  make install-dotfiles     - Apply dotfiles with stow"
@@ -24,16 +24,16 @@ help:
 	@echo "  make clean-history        - Clear history file"
 	@echo ""
 	@echo "Examples:"
-	@echo "  make install                               # Full setup"
-	@echo "  make install-dev                           # Dev stack only"
-	@echo "  make install-browser BROWSER=firefox       # Install Firefox only"
-	@echo "  make install-terminal TERMINAL_THEME=blurred # Use blurred WezTerm theme"
-	@echo "  make uninstall                             # Uninstall all (reverse order)"
+	@echo "  make install                               	# Full setup"
+	@echo "  make install-dev                           	# Dev stack only"
+	@echo "  make install-browser BROWSER=arc       		# Install Arc browser"
+	@echo "  make install-terminal TERMINAL_THEME=dracula 	# Use blurred WezTerm theme"
+	@echo "  make uninstall                             	# Uninstall all (reverse order)"
 	@echo ""
 	@echo "Terminal themes available:"
 	@ls -1 .config/wezterm/themes/ 2>/dev/null | sed 's/^/    - /' || echo "    (none found)"
 
-install: install-init install-dev install-mac-looks install-browser install-terminal install-vscode install-dotfiles
+install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles
 	@echo ""
 	@echo "✓ Full installation complete!"
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install"'
@@ -48,10 +48,10 @@ install-dev: install-init
 	@./install/dev.sh
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-dev"'
 
-install-mac-looks: install-init
+install-mac-plugins: install-init
 	@chmod +x install/*.sh
-	@./install/mac-looks.sh
-	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-mac-looks"'
+	@./install/mac-plugins.sh
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-mac-plugins"'
 
 install-browser: install-init
 	@chmod +x install/*.sh
@@ -84,6 +84,5 @@ clean-history:
 	@rm -f .dotfiles.history
 	@echo "History file cleared"
 
-# Aliases for easier usage
 terminal:
 	@make install-terminal TERMINAL_THEME=$(TERMINAL_THEME)

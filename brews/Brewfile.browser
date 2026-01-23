@@ -1,2 +1,3 @@
 # Browser casks
+cask "arc"
 cask "zen-browser"
