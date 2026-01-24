@@ -7,6 +7,56 @@ Intel macs and other OS are not supported.
 
 Feel free to use and adapt.
 
+## Usage
+
+If on a fresh macOS, prepare system first:
+```bash
+xcode-select --install
+```
+
+### Quick Start
+```bash
+git clone https://github.com/dfranco-projects/dotfiles.git
+cd dotfiles
+
+```bash
+# View all available install options
+make help
+```
+
+### Modular Installation
+
+Install all my stack:
+```bash
+make install
+```
+
+Or install only what you need:
+
+```bash
+# Install specific components
+make install-init            # Core system checks and base packages
+make install-dev             # Development stack
+make install-mac-plugins     # macOS UI plugins
+make install-browser         # Browser (default: zen)
+make install-terminal        # WezTerm with theme
+make install-vscode          # VS Code extensions
+make install-dotfiles        # Apply shell configs
+```
+
+### Examples
+
+```bash
+# Install Arc browser
+make install-browser BROWSER=Arc
+
+# Install WezTerm with blurred theme
+make install-terminal THEME=blurred
+
+# Dev stack only (no UI tools)
+make install-init install-dev install-terminal install-dotfiles
+```
+
 ## Features
 
 ### Core Stack (Always Installed)
@@ -15,7 +65,7 @@ Feel free to use and adapt.
 - Essential CLI tools: bat, ripgrep, fd, fzf, eza, direnv, jq, tree, stow
 
 ### Dev Stack
-- Python 3.13, pyenv, poetry, uv
+- Python, pyenv, poetry, uv
 - Node.js
 - Docker, Docker CLI
 - tmux
@@ -39,10 +89,9 @@ Feel free to use and adapt.
 - Shared history setup
 
 ### Terminal Themes
-- **default**
 - **apathy**
+- **blues**
 - **blurred**
-- **dracula**
 
 ### Configs Included
 - `.zshrc` - Shell configuration
@@ -50,54 +99,6 @@ Feel free to use and adapt.
 - `.p10k.zsh` - Powerlevel10k config
 - `.fdignore` - fd ignore rules
 - WezTerm configuration with multiple themes
-
-## Installation
-
-### Quick Start
-```bash
-git clone https://github.com/dfranco-projects/dotfiles.git
-cd dotfiles
-make install
-```
-
-If on a fresh macOS, prepare system first:
-```bash
-xcode-select --install
-```
-
-### Modular Installation
-
-Install only what you need:
-
-```bash
-# View all available targets
-make help
-
-# Install specific components
-make install-init            # Core system checks and base packages
-make install-dev             # Development stack
-make install-mac-plugins     # macOS UI plugins
-make install-browser         # Browser (default: zen)
-make install-terminal        # WezTerm with theme
-make install-vscode          # VS Code extensions
-make install-dotfiles        # Apply shell configs
-```
-
-### Custom Installation Examples
-
-```bash
-# Install Arc browser
-make install-browser BROWSER=Arc
-
-# Switch WezTerm theme to blurred
-make install-terminal TERMINAL_THEME=blurred
-
-# Switch back to default theme
-make install-terminal TERMINAL_THEME=default
-
-# Dev stack only (no UI tools)
-make install-init install-dev install-terminal install-dotfiles
-```
 
 ## License
 
