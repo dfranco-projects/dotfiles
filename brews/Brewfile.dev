@@ -10,3 +10,6 @@ brew "htop"
 cask "visual-studio-code"
 cask "docker"
 cask "wezterm"
+
+# Fonts
+cask "font-meslo-lg-nerd-font"
