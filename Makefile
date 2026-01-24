@@ -1,8 +1,8 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles terminal uninstall history clean-history
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles terminal uninstall history clean-history theme
 
 # Variables
 BROWSER ?= arc
-TERMINAL_THEME ?= default
+THEME ?= blurred
 DOTFILES_DIR ?= $(shell pwd)
 
 help:
@@ -12,9 +12,9 @@ help:
 	@echo "  make install              - Full installation (init + dev + shell + dotfiles)"
 	@echo "  make install-init         - Initialize base (checks, Homebrew, base packages)"
 	@echo "  make install-dev          - Install development stack"
-	@echo "  make install-mac-plugins    - Install macOS UI enhancements"
+	@echo "  make install-mac-plugins  - Install macOS UI enhancements"
 	@echo "  make install-browser      - Install browser(s) (default: arc)"
-	@echo "  make install-terminal     - Configure WezTerm theme (default: default)"
+	@echo "  make install-terminal     - Configure WezTerm theme (default: blurred)"
 	@echo "  make install-vscode       - Install VS Code extensions"
 	@echo "  make install-dotfiles     - Apply dotfiles with stow"
 	@echo ""
@@ -27,11 +27,12 @@ help:
 	@echo "  make install                               	# Full setup"
 	@echo "  make install-dev                           	# Dev stack only"
 	@echo "  make install-browser BROWSER=arc       		# Install Arc browser"
-	@echo "  make install-terminal TERMINAL_THEME=dracula 	# Use blurred WezTerm theme"
+	@echo "  make install-terminal THEME=dracula 			# Install WezTerm with specific theme"
+	@echo "  make terminal THEME=dracula 					# Change WezTerm theme only"
 	@echo "  make uninstall                             	# Uninstall all (reverse order)"
 	@echo ""
 	@echo "Terminal themes available:"
-	@ls -1 .config/wezterm/themes/ 2>/dev/null | sed 's/^/    - /' || echo "    (none found)"
+	@echo "  make theme-list                            	# List available WezTerm themes"
 
 install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles
 	@echo ""
@@ -61,8 +62,8 @@ install-browser: install-init
 
 install-terminal:
 	@chmod +x install/*.sh
-	@./install/terminal.sh $(TERMINAL_THEME)
-	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-terminal TERMINAL_THEME=$(TERMINAL_THEME)"'
+	@./install/terminal.sh $(THEME)
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-terminal THEME=$(THEME)"'
 
 install-vscode:
 	@chmod +x install/*.sh
@@ -86,4 +87,7 @@ clean-history:
 	@echo "History file cleared"
 
 terminal:
-	@make install-terminal TERMINAL_THEME=$(TERMINAL_THEME)
+	@make install-terminal THEME=$(THEME)
+
+theme-list:
+	@ls -1 .config/wezterm/themes/ 2>/dev/null || echo "(no themes found)"

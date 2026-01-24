@@ -1,20 +1,15 @@
--- Pull wezterm API
 local wezterm = require("wezterm")
 
--- Hold configuration table
 local config = wezterm.config_builder()
 
--- Set the default font
-config.font = wezterm.font("MesloLGS Nerd Font Mono", { weight = "Regular" })
+config.font = wezterm.font("MesloLGS Nerd Font Mono")
+config.font_size = 19
 
--- Set the font size
-config.font_size = 18
-
--- Disable built-in tab bar
 config.enable_tab_bar = false
 
--- Remove Title but keep Resize on window decorations
 config.window_decorations = "RESIZE"
+config.window_background_opacity = 0.8
+config.macos_window_background_blur = 10
 
 config.colors = {
 	foreground = "#CBE0F0",
@@ -27,11 +22,5 @@ config.colors = {
 	ansi = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#0FC5ED", "#a277ff", "#24EAF7", "#24EAF7" },
 	brights = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#A277FF", "#a277ff", "#24EAF7", "#24EAF7" },
 }
-
--- Set bg oppacity
-config.window_background_opacity = 0.7
-
--- Set macos bg blur
-config.macos_window_background_blur = 10
 
 return config
