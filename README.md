@@ -9,11 +9,6 @@ Feel free to use and adapt.
 
 ## Usage
 
-If on a fresh macOS, prepare system first:
-```bash
-xcode-select --install
-```
-
 ### Quick Start
 ```bash
 git clone https://github.com/dfranco-projects/dotfiles.git
@@ -26,7 +21,7 @@ make help
 
 ### Modular Installation
 
-Install all my stack:
+You can either install all of my stack:
 ```bash
 make install
 ```
@@ -38,7 +33,7 @@ Or install only what you need:
 make install-init            # Core system checks and base packages
 make install-dev             # Development stack
 make install-mac-plugins     # macOS UI plugins
-make install-browser         # Browser (default: zen)
+make install-browser         # Browser (default: arc)
 make install-terminal        # WezTerm with theme
 make install-vscode          # VS Code extensions
 make install-dotfiles        # Apply shell configs
@@ -76,6 +71,7 @@ make install-init install-dev install-terminal install-dotfiles
 - Rectangle (window management)
 - Stats (system monitor)
 - Hidden Bar (menu bar organizer)
+- Raycast
 
 ### Browsers
 - Arc (default)
