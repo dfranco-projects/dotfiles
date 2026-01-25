@@ -10,3 +10,7 @@ Music/
 node_modules/
 __pycache__/
 .vscode/
+.azure/
+.pyenv/
+.ssh/
+Templates/
