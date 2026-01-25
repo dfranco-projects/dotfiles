@@ -10,9 +10,9 @@ cd "$DOTFILES_DIR"
 # Stow packages to home directory
 # Using -t ~ to target home directory explicitly
 # Using -d . to specify the stow directory as current (DOTFILES_DIR)
-# .stowignore file automatically excludes unwanted files (macOS junk, cache, etc.)
-stow --adopt -t ~ -d . shell
-stow --adopt -t ~ -d . .config
+stow --adopt -t ~ -d . stow
+
+rm -rf "$DOTFILES_DIR"/stow/.config/wezterm/.DS_Store
 
 success "Dotfiles applied"
 

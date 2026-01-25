@@ -1,6 +1,8 @@
 # Stow ignore file - files/patterns to skip when stowing
 # This prevents system files, temporary files, and other junk from being stowed
 
+**.DS_Store
+*.DS_Store
 .DS_Store
 .git
 .gitignore

@@ -1,1 +1,44 @@
-[2026-01-25 13:36:10] make install-dotfiles
+[2026-01-25 16:15:49] make install-init
+[2026-01-25 16:15:51] make install-dev
+[2026-01-25 16:15:51] make install-mac-plugins
+[2026-01-25 16:15:52] make install-browser BROWSER=arc
+[2026-01-25 16:15:52] make install-terminal THEME=blurred
+[2026-01-25 16:15:53] make install-vscode
+[2026-01-25 16:17:59] make install-init
+[2026-01-25 16:18:01] make install-dev
+[2026-01-25 16:18:01] make install-mac-plugins
+[2026-01-25 16:18:02] make install-browser BROWSER=arc
+[2026-01-25 16:18:02] make install-terminal THEME=blurred
+[2026-01-25 16:18:02] make install-vscode
+[2026-01-25 16:18:03] make install-dotfiles
+[2026-01-25 16:18:03] make install
+[2026-01-25 16:19:40] make install-init
+[2026-01-25 16:19:42] make install-dev
+[2026-01-25 16:19:42] make install-mac-plugins
+[2026-01-25 16:19:43] make install-browser BROWSER=arc
+[2026-01-25 16:19:43] make install-terminal THEME=blurred
+[2026-01-25 16:19:43] make install-vscode
+[2026-01-25 16:19:44] make install-dotfiles
+[2026-01-25 16:19:44] make install
+[2026-01-25 16:24:04] make install-init
+[2026-01-25 16:24:05] make install-dev
+[2026-01-25 16:24:06] make install-mac-plugins
+[2026-01-25 16:24:07] make install-browser BROWSER=arc
+[2026-01-25 16:25:09] make install-init
+[2026-01-25 16:25:10] make install-dev
+[2026-01-25 16:25:11] make install-mac-plugins
+[2026-01-25 16:25:12] make install-browser BROWSER=arc
+[2026-01-25 16:25:12] make install-terminal THEME=blurred
+[2026-01-25 16:25:12] make install-vscode
+[2026-01-25 16:25:12] make install-dotfiles
+[2026-01-25 16:25:12] make install
+[2026-01-25 16:34:19] make uninstall
+[2026-01-25 16:35:00] make install-init
+[2026-01-25 16:37:09] make install-dev
+[2026-01-25 16:37:30] make install-mac-plugins
+[2026-01-25 16:37:40] make install-browser BROWSER=arc
+[2026-01-25 16:37:40] make install-terminal THEME=blurred
+[2026-01-25 16:37:41] make install-vscode
+[2026-01-25 16:37:41] make install-dotfiles
+[2026-01-25 16:37:41] make install
+[2026-01-25 16:38:22] make install-terminal THEME=blues
