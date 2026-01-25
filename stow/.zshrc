@@ -126,6 +126,20 @@ yt_search() {
     fi
 }
 
+theme() {
+  local wezterm_dir="$HOME/.config/wezterm/themes"
+  local selection
+
+  selection=$(find "$wezterm_dir" -mindepth 1 -type d -exec basename {} \; | fzf)
+
+  [[ -z "$selection" ]] && return 1
+
+  (
+    cd "$HOME/dotfiles" || return 1
+    make terminal THEME="$selection"
+  )
+}
+
 alias arc="arc_search"
 # alias ff="firefox_search"
 alias yt="yt_search"
