@@ -2,3 +2,4 @@
 cask "rectangle"
 cask "stats"
 cask "hiddenbar"
+cask "raycast"
