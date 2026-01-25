@@ -5,4 +5,7 @@ Public/
 Downloads/
 Library/
 Music/
-.cache/
+.cache/.DS_Store
+.git/
+node_modules/
+__pycache__/

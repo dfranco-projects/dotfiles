@@ -1,0 +1,24 @@
+# Stow ignore file - files/patterns to skip when stowing
+# This prevents system files, temporary files, and other junk from being stowed
+
+.DS_Store
+.git
+.gitignore
+.gitkeep
+*~
+*.swp
+*.swo
+*.swn
+.~*
+.trash
+.Trash
+node_modules
+__pycache__
+*.pyc
+.pytest_cache
+.venv
+venv
+.env
+dist
+build
+*.egg-info

@@ -54,6 +54,14 @@ make install-init install-dev install-terminal install-dotfiles
 
 ## Features
 
+### Dotfiles Management
+
+This repo uses **GNU `stow`** for managing dotfiles. The structure is:
+- `shell/` - Zsh configuration files (.zshrc, .zprofile, .p10k.zsh)
+- `.config/` - XDG configuration (wezterm, vscode, browsers)
+
+When you run `make install-dotfiles`, stow creates symlinks from these packages to your home directory, allowing you to maintain all configs in version control. See [STOW_README.md](STOW_README.md) for details.
+
 ### Core Stack (Always Installed)
 - Homebrew (package management)
 - Git, curl, wget
@@ -71,7 +79,7 @@ make install-init install-dev install-terminal install-dotfiles
 - Rectangle (window management)
 - Stats (system monitor)
 - Hidden Bar (menu bar organizer)
-- Raycast
+- Raycast (better spotlight)
 
 ### Browsers
 - Arc (default)

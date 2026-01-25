@@ -6,7 +6,14 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_base.sh"
 
 log "Applying dotfiles with stow"
 cd "$DOTFILES_DIR"
-stow --adopt .
+
+# Stow packages to home directory
+# Using -t ~ to target home directory explicitly
+# Using -d . to specify the stow directory as current (DOTFILES_DIR)
+# .stowignore file automatically excludes unwanted files (macOS junk, cache, etc.)
+stow --adopt -t ~ -d . shell
+stow --adopt -t ~ -d . .config
+
 success "Dotfiles applied"
 
 echo
