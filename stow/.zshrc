@@ -140,6 +140,21 @@ theme() {
   )
 }
 
+vscode-extensions-install() {
+  local file="$HOME/.config/vscode/extensions.txt"
+
+  if [[ ! -f "$file" ]]; then
+    echo "extensions.txt not found: $file"
+    return 1
+  fi
+
+  grep -vE '^\s*#|^\s*$' "$file" | while read -r ext; do
+    echo "Installing $ext"
+    code --install-extension "$ext"
+  done
+}
+
+
 alias arc="arc_search"
 # alias ff="firefox_search"
 alias yt="yt_search"
