@@ -10,6 +10,9 @@
     "workbench.tree.enableStickyScroll": true,  //parent folder during scroll
     "workbench.tree.renderIndentGuides": "none",  //indent lines
     "workbench.tree.indent":  8,  //indent level
+    "workbench.colorCustomizations": {
+        "editorCursor.background": "#000000",
+    },
 
     "explorer.compactFolders": false,  //display empty subfolders
     "explorer.confirmDelete": false,  //confirm file deletion
@@ -48,25 +51,36 @@
         ".title-actions": "display: none !important",  //title bar buttons
         ".title.show-file-icons .label-container .monaco-icon-label.file-icon": "justify-content: center",  //center title text
         ".title .monaco-icon-label:after": "margin-right: 0",  //removes error count
-        ".monaco-workbench .part.editor > .content .editor-group-container > .title > .label-container > .title-label": "padding-left: 75px"
-    },  //file name & path position
-    //font style
-    "custom-ui-style.font.sansSerif": "MesloLGS NF", 
-    "custom-ui-style.font.monospace": "MesloLGS NF",
-    
+        ".monaco-workbench .part.editor > .content .editor-group-container > .title > .label-container > .title-label": "padding-left: 75px",  //file name & path position
+        ".monaco-editor .cursors-layer .cursor": "background-image: linear-gradient(135deg, #ffaffc 10%, #DA70D6 100%)",  //cursor gradient 
+    },
+    "custom-ui-style.font.sansSerif": "MesloLGS NF",  //font style
+    "custom-ui-style.font.monospace": "MesloLGS NF",  //font style
     "custom-ui-style.reload": true,  //custom-ui reload
+    
+    "editor.fontFamily": "MesloLGS NF",  //font family
+    "editor.fontSize": 14,  //font size
+    "editor.minimap.enabled": false,  //hides minimap
+    "editor.multiCursorModifier": "ctrlCmd",  //switch option to cmd to select multi code lines
+    "editor.cursorBlinking": "solid",  //cursor blink
+    "editor.cursorStyle": "block",  //cursor style
+    // italic comments
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "comment",
+                "settings": {
+                    "fontStyle": "italic",
+                }
+            }
+        ]
+    },
+    
+
 
     "git.decorations.enabled": false,  //git changes file color
-
-    "editor.minimap.enabled": false,  //hides minimap
-
-    "breadcrumbs.enabled": false,
-
-    // "editor.fontFamily": "MesloLGS NF",
-    // "terminal.integrated.fontFamily": "MesloLGS NF",
-    // "debug.console.fontFamily": "MesloLGS NF"
-
-
+    
+    "breadcrumbs.enabled": false,  //cleaner title file path
 
 
 }
