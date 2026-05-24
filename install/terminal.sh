@@ -19,8 +19,23 @@ fi
 
 # Copy theme config to main wezterm config
 log "Applying WezTerm theme: $THEME"
+WEZTERM_CONFIG="$DOTFILES_DIR/stow/.config/wezterm/wezterm.lua"
 if [[ -f "$WEZTERM_THEME_DIR/wezterm.lua" ]]; then
-    cp "$WEZTERM_THEME_DIR/wezterm.lua" "$DOTFILES_DIR/stow/.config/wezterm/wezterm.lua"
+    cp "$WEZTERM_THEME_DIR/wezterm.lua" "$WEZTERM_CONFIG"
+
+    # Inject shared keybindings (keys.lua) before `return config` so theme
+    # switches don't wipe them. Idempotent: skips if the require is already present.
+    if ! grep -qF 'require("keys").apply(config)' "$WEZTERM_CONFIG"; then
+        awk '
+            /^return config[[:space:]]*$/ && !injected {
+                print "require(\"keys\").apply(config)"
+                print ""
+                injected = 1
+            }
+            { print }
+        ' "$WEZTERM_CONFIG" > "$WEZTERM_CONFIG.tmp" && mv "$WEZTERM_CONFIG.tmp" "$WEZTERM_CONFIG"
+    fi
+
     success "WezTerm config updated for theme: $THEME"
 else
     warn "wezterm.lua not found in theme directory"
