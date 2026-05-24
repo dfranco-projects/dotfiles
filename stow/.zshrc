@@ -60,8 +60,9 @@ alias ll="eza -l --icons=always"
 alias la="eza -la --icons=always"
 alias cl="clear"
 alias wpp="open https://web.whatsapp.com/"
-alias teams="open /Applications/Microsoft\ Teams.app"
-alias mail="open /Applications/Microsoft\ Outlook.app"
+alias teams="open /Applications/Microsoft\\ Teams.app"
+alias mail="open /Applications/Microsoft\\ Outlook.app"
+alias cdir="basename \"\$PWD\""
 
 # ---------------------------------- DIRENV -----------------------------------
 
@@ -154,7 +155,6 @@ vscode-extensions-install() {
   done
 }
 
-
 alias arc="arc_search"
 # alias ff="firefox_search"
 alias yt="yt_search"
@@ -164,3 +164,10 @@ alias yt="yt_search"
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # -----------------------------------------------------------------------------
+
+# Added by Antigravity
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/franco/.local/bin:$PATH"

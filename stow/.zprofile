@@ -9,3 +9,7 @@ eval "$(pyenv init --path)"
 # Neovim aliases
 alias vim="nvim"
 alias vi="nvim"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/franco/.local/bin:$PATH"
