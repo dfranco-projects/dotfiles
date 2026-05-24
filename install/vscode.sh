@@ -4,7 +4,7 @@
 set -e
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_base.sh"
 
-EXTENSIONS_FILE="$DOTFILES_DIR/.config/vscode/extensions.txt"
+EXTENSIONS_FILE="$DOTFILES_DIR/stow/.config/vscode/extensions.txt"
 
 if ! command -v code >/dev/null 2>&1; then
     warn "VS Code CLI not found, skipping extensions install"
@@ -19,10 +19,10 @@ fi
 
 log "Installing VS Code extensions"
 
-while IFS= read -r extension; do
+while IFS= read -r extension || [[ -n "$extension" ]]; do
     # Skip empty lines and comments
     [[ -z "$extension" || "$extension" == \#* ]] && continue
-    
+
     log "Installing VS Code extension: $extension"
     code --install-extension "$extension" --force
 done < "$EXTENSIONS_FILE"

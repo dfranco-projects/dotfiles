@@ -6,7 +6,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_base.sh"
 
 log "Reversing dotfiles with stow"
 cd "$DOTFILES_DIR"
-stow --delete . || true
+stow --delete -t ~ -d . stow || true
 success "Dotfiles reversed"
 
 echo
