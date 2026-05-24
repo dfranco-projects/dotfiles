@@ -1,6 +1,6 @@
 {
-    "workbench.colorTheme": "Aura Dracula Spirit (Soft)",  //theme
-    "workbench.activityBar.location": "hidden",  //plugin icons
+    "workbench.colorTheme": "Monokai",  //theme
+    "workbench.activityBar.location": "top",  //plugin icons
     "workbench.editor.showTabs": "single",  //op tabs
     "workbench.statusBar.visible": false,  //bottom bar
     "workbench.startupEditor": "none",  //vscode clean start
@@ -38,8 +38,7 @@
 
     "extensions.ignoreRecommendations": true,  //extension recomendations
 
-    "window.zoomLevel": 3,  //zoom
-    "window.customTitleBarVisibility": "never",  //vscode inbuilt top bar
+    "window.zoomLevel": 3, //vscode inbuilt top bar
     "window.titleBarStyle": "native",  //vscode inbuilt top bar style
 
 
@@ -133,5 +132,10 @@
 
     "git.decorations.enabled": false,  //git changes file color
 
-    "breadcrumbs.enabled": false,  //cleaner title file path
+    "breadcrumbs.enabled": false,
+    "window.commandCenter": false,
+    "workbench.layoutControl.enabled": false,
+    "workbench.panel.showLabels": false,
+    "claudeCode.preferredLocation": "sidebar",
+    "git.confirmSync": false, //cleaner title file path
 }
