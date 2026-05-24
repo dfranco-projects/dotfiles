@@ -39,3 +39,17 @@ mock_call_count() {
     local file="$BATS_TEST_TMPDIR/${name}.calls"
     [[ -f "$file" ]] && wc -l < "$file" | tr -d ' ' || echo 0
 }
+
+# Build a minimal sandbox DOTFILES_DIR under $1 with copies of install/_base.sh,
+# install/dotfiles.sh, and lib/log.sh. Tests can then add fixtures under
+# $1/stow/ before invoking $1/install/dotfiles.sh. Use this for any test that
+# runs the dotfiles install script — running it against the real repo is
+# destructive because the user's $HOME may have folded stow symlinks that
+# resolve back into the source tree.
+make_fake_dotfiles_tree() {
+    local root="$1"
+    mkdir -p "$root/install" "$root/lib" "$root/stow"
+    cp "$DOTFILES_REPO_DIR/install/dotfiles.sh"     "$root/install/"
+    cp "$DOTFILES_REPO_DIR/install/_base.sh"        "$root/install/"
+    cp "$DOTFILES_REPO_DIR/lib/log.sh"              "$root/lib/"
+}
