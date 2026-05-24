@@ -1,4 +1,4 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles terminal uninstall history clean-history theme
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles terminal uninstall history clean-history theme test
 
 # Variables
 BROWSER ?= arc
@@ -33,6 +33,9 @@ help:
 	@echo ""
 	@echo "Terminal themes available:"
 	@echo "  make theme-list                            	# List available WezTerm themes"
+	@echo ""
+	@echo "Tests:"
+	@echo "  make test                                  	# Run the bats test suite"
 
 install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles
 	@echo ""
@@ -90,3 +93,7 @@ terminal:
 
 theme-list:
 	@ls -1 .config/wezterm/themes/ 2>/dev/null || echo "(no themes found)"
+
+test:
+	@command -v bats >/dev/null 2>&1 || { echo "bats not installed (brew install bats-core)"; exit 1; }
+	@bats tests/

@@ -5,6 +5,7 @@ brew "pyenv"
 brew "poetry"
 brew "tmux"
 brew "htop"
+brew "bats-core"
 
 # Dev casks
 cask "visual-studio-code"
