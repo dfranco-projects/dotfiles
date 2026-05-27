@@ -15,20 +15,6 @@ export LDFLAGS="-L/opt/homebrew/opt/sqlite/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/sqlite/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/sqlite/lib/pkgconfig"
 
-# ----------------------------------- CONDA ------------------------------------
-
-# __conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/opt/homebrew/anaconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-
 # ------------------------------------ NVM -------------------------------------
 
 export NVM_DIR="$HOME/.nvm"
@@ -59,10 +45,19 @@ alias ls="eza --icons=always"
 alias ll="eza -l --icons=always"
 alias la="eza -la --icons=always"
 alias cl="clear"
+
+alias login="gcloud auth login"
+alias app-login="gcloud auth application-default login"
+
 alias wpp="open https://web.whatsapp.com/"
-alias teams="open /Applications/Microsoft\\ Teams.app"
-alias mail="open /Applications/Microsoft\\ Outlook.app"
-alias cdir="basename \"\$PWD\""
+alias teams="open /Applications/Microsoft\ Teams.app"
+alias mail="open /System/Applications/Mail.app"
+
+# ---------------------------------- GCLOUD -----------------------------------
+
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
+    source "$HOME/google-cloud-sdk/completion.zsh.inc"
+fi
 
 # ---------------------------------- DIRENV -----------------------------------
 
@@ -127,37 +122,78 @@ yt_search() {
     fi
 }
 
+conda_activate() {
+    __conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+}
+
+workbench_cli() {
+    if [ "$#" -lt 1 ]; then
+        echo "Usage: wb <start|stop|status|describe> [instance] [project]"
+        return 1
+    fi
+
+    local action="$1"
+    local instance_name="${2:-workbench-df}"
+    local target_project="${3:-ric-eu-aicoe-general-dev-nprd}"
+
+    local original_project
+    original_project=$(gcloud config get-value project 2>/dev/null)
+
+    gcloud config set project "$target_project" >/dev/null 2>&1
+
+    if [ "$action" = "status" ]; then
+        gcloud workbench instances describe "$instance_name" --location=europe-west3-b | grep state:
+        gcloud config set project "$original_project" >/dev/null 2>&1
+        return 0
+    fi
+
+    gcloud workbench instances "$action" "$instance_name" --location=europe-west3-b
+    gcloud config set project "$original_project" >/dev/null 2>&1
+}
+
 theme() {
-  local wezterm_dir="$HOME/.config/wezterm/themes"
-  local selection
+    local wezterm_dir="$HOME/.config/wezterm/themes"
+    local selection
 
-  selection=$(find "$wezterm_dir" -mindepth 1 -type d -exec basename {} \; | fzf)
+    selection=$(find "$wezterm_dir" -mindepth 1 -type d -exec basename {} \; | fzf)
 
-  [[ -z "$selection" ]] && return 1
+    [[ -z "$selection" ]] && return 1
 
-  (
-    cd "$HOME/dotfiles" || return 1
-    make terminal THEME="$selection"
-  )
+    (
+        cd "$HOME/dotfiles" || return 1
+        make terminal THEME="$selection"
+    )
 }
 
 vscode-extensions-install() {
-  local file="$HOME/.config/vscode/extensions.txt"
+    local file="$HOME/.config/vscode/extensions.txt"
 
-  if [[ ! -f "$file" ]]; then
-    echo "extensions.txt not found: $file"
-    return 1
-  fi
+    if [[ ! -f "$file" ]]; then
+        echo "extensions.txt not found: $file"
+        return 1
+    fi
 
-  grep -vE '^\s*#|^\s*$' "$file" | while read -r ext; do
-    echo "Installing $ext"
-    code --install-extension "$ext"
-  done
+    grep -vE '^\s*#|^\s*$' "$file" | while read -r ext; do
+        echo "Installing $ext"
+        code --install-extension "$ext"
+    done
 }
 
+alias wb="workbench_cli"
 alias arc="arc_search"
 # alias ff="firefox_search"
 alias yt="yt_search"
+alias conda-init="conda_activate"
 
 # --------------------------- SYNTAX HIGHLIGHTING -----------------------------
 
