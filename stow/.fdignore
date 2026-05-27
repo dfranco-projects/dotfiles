@@ -1,36 +1,63 @@
+# Home directories
 Documents/
-Movies/
-Pictures/
-Public/
 Downloads/
 Library/
+Movies/
 Music/
-.cache/
+Pictures/
+Public/
+Templates/
+
+# Build / VCS / language artifacts
 .git/
 node_modules/
 __pycache__/
-.vscode/
-.azure/
-.pyenv/
-.ssh/
-Templates/
+
+# Language toolchains
 .npm/
+.nvm/
+.pyenv/
+.conda/
+.anaconda/
 .rustup/
 .composer/
-.zsh_sessions/
 .swiftpm/
-.antigravity/
-.npm/
-.local/
-.ollama/
+
+# SDKs / dev tools
+google-cloud-sdk/
+Postman/
+.azure/
 .docker/
-.ipython/
-.Trash/
-.gemini/
-.claude/
-.config/
-.u2net/
-.streamlit/
-.cagent/
-.copilot/
+.gitlab/
+.gsutil/
+.selenium/
+.wdm/
+.rest-client/
+
+# Editors / IDEs
+.vscode/
 .vscode-shared/
+
+# AI / assistants
+.antigravity/
+.cagent/
+.claude/
+.copilot/
+.gemini/
+.ollama/
+
+# Caches & runtime
+.cache/
+.ipython/
+.local/
+.matplotlib/
+.streamlit/
+.u2net/
+.cookiecutters/
+.cookiecutter_replay/
+
+# Shell / system
+.config/
+.ssh/
+.Trash/
+.zsh_sessions/
