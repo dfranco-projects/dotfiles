@@ -27,3 +27,6 @@ build/
 #CLIs
 .claude/
 .antigravitycli/
+
+# gh auth state (account-specific)
+stow/.config/gh/hosts.yml
