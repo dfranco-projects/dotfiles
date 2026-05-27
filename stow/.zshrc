@@ -164,10 +164,3 @@ alias yt="yt_search"
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # -----------------------------------------------------------------------------
-
-# Added by Antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
-
-
-# Added by Antigravity CLI installer
-export PATH="/Users/franco/.local/bin:$PATH"
