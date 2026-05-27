@@ -8,6 +8,9 @@ function M.apply(config)
 		{ key = "LeftArrow",  mods = "OPT", action = wezterm.action.SendString("\x1bb") },
 		{ key = "RightArrow", mods = "OPT", action = wezterm.action.SendString("\x1bf") },
 
+		-- fzf cd widget (Opt+c) — bypass macOS compose that would otherwise produce ©
+		{ key = "c", mods = "OPT", action = wezterm.action.SendString("\x1bc") },
+
 		-- Pane navigation (Cmd+Opt+arrows)
 		{ key = "LeftArrow",  mods = "CMD|OPT", action = wezterm.action.ActivatePaneDirection("Left") },
 		{ key = "RightArrow", mods = "CMD|OPT", action = wezterm.action.ActivatePaneDirection("Right") },
