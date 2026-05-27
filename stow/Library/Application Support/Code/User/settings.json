@@ -1,12 +1,20 @@
 {
-    "workbench.colorTheme": "Monokai",  //theme
+    // ---- Favs ----
+    "editor.fontSize": 14,
+    "editor.lineHeight": 1.7,
+    "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",  //theme
+    "editor.fontFamily": "MesloLGS Nerd Font Mono",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.fontFamily": "MesloLGS Nerd Font Mono",
+    "window.zoomLevel": 0.7,
+
     "workbench.activityBar.location": "top",  //plugin icons
     "workbench.editor.showTabs": "single",  //op tabs
     "workbench.statusBar.visible": false,  //bottom bar
     "workbench.startupEditor": "none",  //vscode clean start
     "workbench.tips.enabled": false,  //disables shortcuts tips
     "workbench.sideBar.location": "right",  //sidebar
-    "workbench.iconTheme": "material-icon-theme",  //icons for files
+    "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",  //icons for files
     "workbench.tree.enableStickyScroll": true,  //parent folder during scroll
     "workbench.tree.renderIndentGuides": "none",  //indent lines
     "workbench.tree.indent":  8,  //indent level
@@ -38,15 +46,13 @@
 
     "extensions.ignoreRecommendations": true,  //extension recomendations
 
-    "window.zoomLevel": 3, //vscode inbuilt top bar
     "window.titleBarStyle": "native",  //vscode inbuilt top bar style
-
 
     "custom-ui-style.electron": {
         "titleBarStyle": "hiddenInset",  //app bar
         "trafficLightPosition": {
             "x": 20,
-            "y": 16,
+            "y": 16
         }
     },  //app traffic light buttons position
     "custom-ui-style.stylesheet": {
@@ -69,15 +75,12 @@
         ".title .monaco-icon-label:after": "margin-right: 0",  //removes error count
         ".monaco-workbench .part.editor > .content .editor-group-container > .title > .label-container > .title-label": "padding-left: 75px",  //file name & path position
         ".title .monaco-icon-label.file-icon": "margin: 0 60px",
-        ".monaco-editor .cursors-layer .cursor": "background-image: linear-gradient(135deg, #ffaffc 10%, #DA70D6 100%)",  //cursor gradient
+        ".monaco-editor .cursors-layer .cursor": "background-image: linear-gradient(135deg, #ffaffc 10%, #DA70D6 100%)"  //cursor gradient
     },
-    "custom-ui-style.font.sansSerif": "MesloLGS NF",  //font style
-    "custom-ui-style.font.monospace": "MesloLGS NF",  //font style
+    "custom-ui-style.font.sansSerif": "MesloLGS Nerd Font Mono",  //font style
+    "custom-ui-style.font.monospace": "MesloLGS Nerd Font Mono",  //font style
     "custom-ui-style.reload": true,  //custom-ui reload
 
-    "editor.fontFamily": "MesloLGS NF",  //font family
-    "editor.fontSize": 14,  //font size
-    "editor.lineHeight": 1.7,
     "editor.minimap.enabled": false,  //hides minimap
     "editor.multiCursorModifier": "ctrlCmd",  //switch option to cmd to select multi code lines
     "editor.cursorBlinking": "blink",  //cursor blink
@@ -87,7 +90,7 @@
             {
                 "scope": "comment",
                 "settings": {
-                    "fontStyle": "italic",
+                    "fontStyle": "italic"
                 }
             }
         ]
@@ -135,7 +138,11 @@
     "breadcrumbs.enabled": false,
     "window.commandCenter": false,
     "workbench.layoutControl.enabled": false,
+    "workbench.panel.defaultLocation": "left",  //terminal panel opens on left
     "workbench.panel.showLabels": false,
     "claudeCode.preferredLocation": "sidebar",
-    "git.confirmSync": false, //cleaner title file path
+    "git.confirmSync": false,
+    "workbench.browser.showInTitleBar": true,
+    "http.systemCertificatesNode": true,
+    "security.workspace.trust.untrustedFiles": "open"
 }

@@ -1,3 +1,11 @@
-JoseMurilloc.aura-spirit-dracula
-PKief.material-icon-theme
+anthropic.claude-code
+josemurilloc.aura-spirit-dracula
+keyshout.sqlite-db-viewer
+monokai.theme-monokai-pro-vscode
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-pylance
+ms-python.vscode-python-envs
+pkief.material-icon-theme
 subframe7536.custom-ui-style
+tomoki1207.pdf
