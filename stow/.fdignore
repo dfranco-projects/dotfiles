@@ -30,6 +30,8 @@ Postman/
 .docker/
 .gitlab/
 .gsutil/
+.hermes/
+.maestri/
 .selenium/
 .wdm/
 .rest-client/
