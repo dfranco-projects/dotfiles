@@ -24,9 +24,9 @@ build/
 # history
 .dotfiles.history
 
-#CLIs
-.claude/
-.antigravitycli/
+#CLIs (only at repo root — stow/.claude/ holds tracked support files)
+/.claude/
+/.antigravitycli/
 
 # gh auth state (account-specific)
 stow/.config/gh/hosts.yml
