@@ -41,6 +41,7 @@ Postman/
 .vscode-shared/
 
 # AI / assistants
+.agent/
 .antigravity/
 .cagent/
 .claude/
