@@ -3,6 +3,11 @@ local wezterm = require("wezterm")
 local M = {}
 
 function M.apply(config)
+	-- Let macOS compose Option+<key> into its symbol (e.g. Option+3 → #).
+	-- Lives here so theme switches (which copy the theme's wezterm.lua over
+	-- the main one) don't drop it — install/terminal.sh reinjects this module.
+	config.send_composed_key_when_left_alt_is_pressed = true
+
 	config.keys = {
 		-- Word movement (Opt+arrows)
 		{ key = "LeftArrow",  mods = "OPT", action = wezterm.action.SendString("\x1bb") },
