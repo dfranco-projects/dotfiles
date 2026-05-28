@@ -23,18 +23,23 @@ WEZTERM_CONFIG="$DOTFILES_DIR/stow/.config/wezterm/wezterm.lua"
 if [[ -f "$WEZTERM_THEME_DIR/wezterm.lua" ]]; then
     cp "$WEZTERM_THEME_DIR/wezterm.lua" "$WEZTERM_CONFIG"
 
-    # Inject shared keybindings (keys.lua) before `return config` so theme
-    # switches don't wipe them. Idempotent: skips if the require is already present.
-    if ! grep -qF 'require("keys").apply(config)' "$WEZTERM_CONFIG"; then
-        awk '
+    # Inject shared modules (keys.lua, tabs.lua) before `return config` so theme
+    # switches don't wipe them. Idempotent: skips modules whose require is already present.
+    inject_module() {
+        local module="$1"
+        local line="require(\"$module\").apply(config)"
+        if grep -qF "$line" "$WEZTERM_CONFIG"; then return; fi
+        awk -v line="$line" '
             /^return config[[:space:]]*$/ && !injected {
-                print "require(\"keys\").apply(config)"
+                print line
                 print ""
                 injected = 1
             }
             { print }
         ' "$WEZTERM_CONFIG" > "$WEZTERM_CONFIG.tmp" && mv "$WEZTERM_CONFIG.tmp" "$WEZTERM_CONFIG"
-    fi
+    }
+    inject_module keys
+    inject_module tabs
 
     success "WezTerm config updated for theme: $THEME"
 else
