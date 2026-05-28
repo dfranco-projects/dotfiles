@@ -26,6 +26,26 @@ local function tab_label(tab)
 	return basename(cwd)
 end
 
+-- Tab-bar attention dot driven by the active pane's `claude_state` user var
+-- (set by Claude Code hooks via stow/.claude/hooks/wezterm-mark.sh):
+--   "working" — neon yellow (Claude is processing)
+--   "input"   — neon orange (Claude is waiting on user)
+--   "done"    — neon green  (Claude finished / idle)
+--   ""/unset  — no dot      (no active CLI)
+local INDICATORS = {
+	working = { fg = { Color = "#F0FF00" } },
+	input   = { fg = { Color = "#FF6F00" } },
+	done    = { fg = { Color = "#39FF14" } },
+}
+
+local function state_of(tab)
+	local pane = tab.active_pane
+	if not pane or not pane.user_vars then return nil end
+	local raw = pane.user_vars.claude_state
+	if not raw or raw == "" then return nil end
+	return raw:match("^([^:]+)") or raw
+end
+
 function M.apply(config)
 	config.enable_tab_bar = true
 	config.tab_bar_at_bottom = true
@@ -38,6 +58,16 @@ function M.apply(config)
 	wezterm.on("format-tab-title", function(tab)
 		local label = tab_label(tab)
 		local idx = tab.tab_index + 1
+		local kind = state_of(tab)
+		local ind = kind and INDICATORS[kind]
+		if ind then
+			return wezterm.format({
+				{ Foreground = ind.fg },
+				{ Text = string.format(" %d ● ", idx) },
+				"ResetAttributes",
+				{ Text = string.format(" %s ", label) },
+			})
+		end
 		return string.format(" %d  %s ", idx, label)
 	end)
 end

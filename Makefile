@@ -1,4 +1,4 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles terminal uninstall history clean-history theme test
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks terminal wezterm uninstall history clean-history theme test
 
 # Variables
 BROWSER ?= arc
@@ -17,6 +17,8 @@ help:
 	@echo "  make install-terminal     - Configure WezTerm theme (default: blurred)"
 	@echo "  make install-vscode       - Install VS Code extensions"
 	@echo "  make install-dotfiles     - Apply dotfiles with stow"
+	@echo "  make install-claude-hooks - Merge Claude Code tab-bar hooks into ~/.claude/settings.json"
+	@echo "  make wezterm              - Full WezTerm setup (cask + theme + stow dotfiles + Claude hooks)"
 	@echo ""
 	@echo "Uninstallation:"
 	@echo "  make uninstall            - Uninstall everything (reads history)"
@@ -37,7 +39,7 @@ help:
 	@echo "Tests:"
 	@echo "  make test                                  	# Run the bats test suite"
 
-install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles
+install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks
 	@echo ""
 	@echo "✓ Full installation complete!"
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install"'
@@ -76,6 +78,19 @@ install-dotfiles:
 	@chmod +x install/*.sh
 	@./install/dotfiles.sh
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-dotfiles"'
+
+install-claude-hooks: install-init
+	@chmod +x install/*.sh
+	@./install/claude-hooks.sh
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-claude-hooks"'
+
+wezterm: install-init
+	@brew list --cask wezterm >/dev/null 2>&1 || brew install --cask wezterm
+	@$(MAKE) install-terminal THEME=$(THEME)
+	@$(MAKE) install-dotfiles
+	@$(MAKE) install-claude-hooks
+	@echo ""
+	@echo "✓ WezTerm full setup complete"
 
 uninstall:
 	@chmod +x uninstall/*.sh
