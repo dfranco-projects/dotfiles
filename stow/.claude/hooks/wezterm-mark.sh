@@ -11,10 +11,15 @@ kind="${1:?kind required (working|input|done|off|start|pretooluse)}"
 [ "${TERM_PROGRAM:-}" = "WezTerm" ] || exit 0
 
 # Dispatcher: read tool_name from hook stdin and pick the right kind.
-# Used by the PreToolUse hook so only ONE state write happens per tool call
-# (avoiding a race between a generic "working" hook and a tool-specific one).
+# Used by the PreToolUse hook so only ONE state write happens per tool call.
+# Pure-bash parse — no jq/cat fork — to minimize hook latency when several
+# Claude sessions are firing hooks in parallel.
 if [ "$kind" = "pretooluse" ]; then
-	tool=$(cat 2>/dev/null | jq -r '.tool_name // empty' 2>/dev/null || true)
+	input=$(</dev/stdin)
+	tool=""
+	if [[ "$input" =~ \"tool_name\"[[:space:]]*:[[:space:]]*\"([^\"]+)\" ]]; then
+		tool="${BASH_REMATCH[1]}"
+	fi
 	case "$tool" in
 		AskUserQuestion) kind="input" ;;
 		*)               kind="working" ;;
@@ -28,12 +33,26 @@ fi
 flag_dir="${TMPDIR:-/tmp}"
 flag="$flag_dir/.claude-input-pending.${WEZTERM_PANE:-default}"
 
+# Safety: if the flag is older than this many seconds when "done" fires, treat
+# it as stale (e.g. a PostToolUse/PreToolUse clearer was missed because hooks
+# weren't reloaded) and let the indicator turn green. Fresh flags still hold.
+flag_ttl=60
+
 case "$kind" in
 	input)   : > "$flag" ;;
 	working) rm -f "$flag" ;;
 	off)     rm -f "$flag" ;;
 	start)   rm -f "$flag"; kind=done ;;
-	done)    [ -f "$flag" ] && exit 0 ;;
+	done)
+		if [ -f "$flag" ]; then
+			mtime=$(stat -f %m "$flag" 2>/dev/null || echo 0)
+			now=$(date +%s)
+			if [ "$((now - mtime))" -lt "$flag_ttl" ]; then
+				exit 0
+			fi
+			rm -f "$flag"
+		fi
+		;;
 esac
 
 # "off" clears the user var (empty value) so the tab indicator turns off.
