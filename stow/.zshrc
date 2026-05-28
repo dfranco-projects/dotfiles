@@ -63,18 +63,6 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
     source "$HOME/google-cloud-sdk/completion.zsh.inc"
 fi
 
-# ----------------------------------- SSL -------------------------------------
-
-SSL_CERT_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/ssl-cert-file"
-if [[ ! -s "$SSL_CERT_CACHE" ]]; then
-    mkdir -p "$(dirname "$SSL_CERT_CACHE")"
-    uv run python -m certifi > "$SSL_CERT_CACHE" 2>/dev/null
-fi
-if [[ -s "$SSL_CERT_CACHE" ]]; then
-    export SSL_CERT_FILE="$(<"$SSL_CERT_CACHE")"
-    export REQUESTS_CA_BUNDLE="$SSL_CERT_FILE"
-fi
-
 # ---------------------------------- DIRENV -----------------------------------
 
 eval "$(direnv hook zsh)"
