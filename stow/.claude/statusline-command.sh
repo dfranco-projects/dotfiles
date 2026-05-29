@@ -13,7 +13,7 @@ input=$(cat)
 cwd=$(echo "$input" | jq -r '.cwd // .workspace.current_dir // ""')
 model=$(echo "$input" | jq -r '.model.display_name // ""')
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
-short_cwd="${cwd/#$HOME/\~}"
+short_cwd="${cwd/#$HOME/~}"
 
 branch=""
 if git -C "$cwd" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
