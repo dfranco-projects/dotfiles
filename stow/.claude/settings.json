@@ -1,0 +1,56 @@
+{
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "voiceEnabled": true,
+  "model": "opus",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/franco/.claude/statusline-command.sh"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/wezterm-mark.sh start" }]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/wezterm-mark.sh working" }]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/wezterm-mark.sh pretooluse" }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/wezterm-mark.sh working" }]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/wezterm-mark.sh input" }]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/wezterm-mark.sh done" }]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/wezterm-mark.sh off" }]
+      }
+    ]
+  }
+}
