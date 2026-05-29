@@ -7,7 +7,7 @@
   "model": "opus",
   "statusLine": {
     "type": "command",
-    "command": "bash /Users/franco/.claude/statusline-command.sh"
+    "command": "bash ~/.claude/statusline-command.sh"
   },
   "hooks": {
     "SessionStart": [
