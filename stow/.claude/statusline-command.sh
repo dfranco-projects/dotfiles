@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Antigravity CLI status line script
+# Claude Code status line script
 #
 # Two color modes:
 #   - "tuned"     : hand-built themes (blues, blurred, apathy) use truecolor
@@ -21,8 +21,8 @@ if git -C "$cwd" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 fi
 
 WEZ_LUA="$HOME/.config/wezterm/wezterm.lua"
-RESET='\033[0m'
-BOLD='\033[1m'
+RESET=$'\033[0m'
+BOLD=$'\033[1m'
 
 # --- Detect theme class ---
 THEME_ID="adaptive"
@@ -38,15 +38,15 @@ fi
 
 if [ "$THEME_ID" = "adaptive" ]; then
   # Basic ANSI codes — terminal substitutes the active scheme's palette.
-  COLOR_DIR='\033[36m'      # cyan
-  COLOR_BRANCH='\033[32m'   # green
-  COLOR_MODEL='\033[97m'    # bright white
-  COLOR_SEP='\033[90m'      # bright black (dim gray)
-  COLOR_PCT='\033[33m'      # yellow
-  COLOR_BAR_LOW='\033[32m'
-  COLOR_BAR_MID='\033[33m'
-  COLOR_BAR_HIGH='\033[31m'
-  COLOR_BAR_CRIT='\033[31m'
+  COLOR_DIR=$'\033[36m'      # cyan
+  COLOR_BRANCH=$'\033[32m'   # green
+  COLOR_MODEL=$'\033[97m'    # bright white
+  COLOR_SEP=$'\033[90m'      # bright black (dim gray)
+  COLOR_PCT=$'\033[33m'      # yellow
+  COLOR_BAR_LOW=$'\033[32m'
+  COLOR_BAR_MID=$'\033[33m'
+  COLOR_BAR_HIGH=$'\033[31m'
+  COLOR_BAR_CRIT=$'\033[31m'
 else
   # Tuned palettes per hand-built theme (truecolor)
   fg() {
@@ -124,19 +124,19 @@ if [ -n "$used_pct" ]; then
     i=$((i+1))
   done
 
-  bar=$(printf "${BAR_COLOR}${blocks}${RESET} ${COLOR_PCT}${used_int}%%${RESET}")
+  bar="${BAR_COLOR}${blocks}${RESET} ${COLOR_PCT}${used_int}%${RESET}"
 fi
 
 # --- Assemble left part ---
 left=""
 if [ -n "$short_cwd" ]; then
-  left=$(printf "${COLOR_DIR}${BOLD}  ${short_cwd}${RESET}")
+  left="${COLOR_DIR}${BOLD}  ${short_cwd}${RESET}"
 fi
 if [ -n "$branch" ]; then
   if [ -n "$left" ]; then
-    left="${left} $(printf "${COLOR_BRANCH}  ${branch}${RESET}")"
+    left="${left} ${COLOR_BRANCH}  ${branch}${RESET}"
   else
-    left=$(printf "${COLOR_BRANCH}  ${branch}${RESET}")
+    left="${COLOR_BRANCH}  ${branch}${RESET}"
   fi
 fi
 
@@ -144,7 +144,7 @@ fi
 right=""
 [ -n "$bar" ] && right="${bar}"
 if [ -n "$model" ]; then
-  model_str=$(printf "${COLOR_MODEL}  ${model}${RESET}")
+  model_str="${COLOR_MODEL}  ${model}${RESET}"
   if [ -n "$right" ]; then
     right="${right} ${model_str}"
   else
@@ -152,10 +152,10 @@ if [ -n "$model" ]; then
   fi
 fi
 
-sep=$(printf " ${COLOR_SEP}|${RESET} ")
+sep=" ${COLOR_SEP}|${RESET} "
 
 if [ -n "$left" ] && [ -n "$right" ]; then
-  line=$(printf '%s%s%s' "$left" "$sep" "$right")
+  line="${left}${sep}${right}"
 elif [ -n "$left" ]; then
   line="$left"
 elif [ -n "$right" ]; then
