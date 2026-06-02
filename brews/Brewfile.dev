@@ -6,6 +6,8 @@ brew "poetry"
 brew "tmux"
 brew "htop"
 brew "bats-core"
+brew "gh"
+brew "glab"
 
 # Dev casks
 cask "visual-studio-code"

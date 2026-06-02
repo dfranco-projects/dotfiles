@@ -53,6 +53,32 @@ alias wpp="open https://web.whatsapp.com/"
 alias teams="open /Applications/Microsoft\ Teams.app"
 alias mail="open /System/Applications/Mail.app"
 
+# Open a repo in the browser. No arg = current repo; pass a folder name (looked
+# up under $DEV_ROOT, default ~/dev) or a path, e.g. `gho my-repo`. Resolved from
+# the repo's own git remote, so the folder name need not match the slug.
+_repo_web() {  # <gh|glab> [folder|path]
+    local tool="$1" dir="${2:-.}"
+    [ -d "$dir" ] || dir="${DEV_ROOT:-$HOME/dev}/$2"
+    ( cd "$dir" 2>/dev/null && "$tool" repo view --web ) \
+        || { echo "${tool}: not a git repo: ${2:-$PWD}" >&2; return 1; }
+}
+gho() { _repo_web gh   "$@"; }  # GitHub repo
+glo() { _repo_web glab "$@"; }  # GitLab repo
+
+# Open a PR/MR in the browser. No arg = the list; pass a number or branch to
+# open a specific one, e.g. `pr 123` / `mr 42`.
+pr() {  # GitHub pull request
+    if [ -n "$1" ]; then gh pr view "$1" --web; else gh pr list --web; fi
+}
+mr() {  # GitLab merge request
+    [ -n "$1" ] && { glab mr view "$1" --web; return; }
+    # glab has no `mr list --web`, so open the project's MR page from the remote.
+    local url
+    url=$(git remote get-url origin 2>/dev/null) || { echo "mr: not a git repo / no origin" >&2; return 1; }
+    url=$(printf '%s' "$url" | sed -E -e 's#^git@([^:]+):#https://\1/#' -e 's#^ssh://git@([^/]+)/#https://\1/#' -e 's#\.git$##')
+    open "$url/-/merge_requests"
+}
+
 # ---------------------------------- GCLOUD -----------------------------------
 
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
