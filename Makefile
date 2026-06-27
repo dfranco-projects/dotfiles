@@ -1,9 +1,10 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph terminal wezterm uninstall history clean-history theme test
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman terminal wezterm uninstall history clean-history theme test
 
 # Variables
 BROWSER ?= arc
 THEME ?= blurred
 CODEGRAPH_TARGET ?= claude
+CAVEMAN_TARGET ?= claude
 DOTFILES_DIR ?= $(shell pwd)
 
 help:
@@ -20,6 +21,7 @@ help:
 	@echo "  make install-dotfiles     - Apply dotfiles with stow"
 	@echo "  make install-claude-hooks - Merge Claude Code tab-bar hooks into ~/.claude/settings.json"
 	@echo "  make install-codegraph    - Install CodeGraph CLI + wire its MCP into Claude Code (default: claude)"
+	@echo "  make install-caveman      - Install Caveman token-compression skill into Claude Code (default: claude)"
 	@echo "  make wezterm              - Full WezTerm setup (cask + theme + stow dotfiles + Claude hooks)"
 	@echo ""
 	@echo "Uninstallation:"
@@ -41,7 +43,7 @@ help:
 	@echo "Tests:"
 	@echo "  make test                                  	# Run the bats test suite"
 
-install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph
+install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman
 	@echo ""
 	@echo "✓ Full installation complete!"
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install"'
@@ -90,6 +92,11 @@ install-codegraph:
 	@chmod +x install/*.sh
 	@./install/codegraph.sh $(CODEGRAPH_TARGET)
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-codegraph CODEGRAPH_TARGET=$(CODEGRAPH_TARGET)"'
+
+install-caveman:
+	@chmod +x install/*.sh
+	@./install/caveman.sh $(CAVEMAN_TARGET)
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-caveman CAVEMAN_TARGET=$(CAVEMAN_TARGET)"'
 
 wezterm: install-init
 	@brew list --cask wezterm >/dev/null 2>&1 || brew install --cask wezterm
