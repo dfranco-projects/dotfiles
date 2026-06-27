@@ -1,5 +1,5 @@
 {
-  "model": "claude-fable-5",
+  "model": "opus",
   "hooks": {
     "SessionStart": [
       {
@@ -87,5 +87,6 @@
     "enabled": true,
     "mode": "hold"
   },
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "tui": "fullscreen"
 }
