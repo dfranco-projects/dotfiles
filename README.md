@@ -37,6 +37,7 @@ make install-browser         # Browser (default: arc)
 make install-terminal        # WezTerm with theme
 make install-vscode          # VS Code extensions
 make install-dotfiles        # Apply shell configs
+make install-codegraph       # CodeGraph CLI + MCP wiring for Claude Code
 ```
 
 ### Examples
@@ -74,6 +75,9 @@ When you run `make install-dotfiles`, stow creates symlinks from these packages 
 - tmux
 - Visual Studio Code
 - WezTerm (terminal)
+
+### AI tooling
+- [CodeGraph](https://github.com/colbymchenry/codegraph) — local, pre-indexed code knowledge graph wired into Claude Code over MCP. Cuts the grep/glob/Read fan-out on large repos (fewer tool calls, fewer tokens; 100% local). Installed on the fly via the official self-contained installer — no Node required. Per-repo indexing is left manual: `cd your-project && codegraph init`.
 
 ### macOS plugins
 - Rectangle (window management)

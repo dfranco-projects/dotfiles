@@ -1,8 +1,9 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks terminal wezterm uninstall history clean-history theme test
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph terminal wezterm uninstall history clean-history theme test
 
 # Variables
 BROWSER ?= arc
 THEME ?= blurred
+CODEGRAPH_TARGET ?= claude
 DOTFILES_DIR ?= $(shell pwd)
 
 help:
@@ -18,6 +19,7 @@ help:
 	@echo "  make install-vscode       - Install VS Code extensions"
 	@echo "  make install-dotfiles     - Apply dotfiles with stow"
 	@echo "  make install-claude-hooks - Merge Claude Code tab-bar hooks into ~/.claude/settings.json"
+	@echo "  make install-codegraph    - Install CodeGraph CLI + wire its MCP into Claude Code (default: claude)"
 	@echo "  make wezterm              - Full WezTerm setup (cask + theme + stow dotfiles + Claude hooks)"
 	@echo ""
 	@echo "Uninstallation:"
@@ -39,7 +41,7 @@ help:
 	@echo "Tests:"
 	@echo "  make test                                  	# Run the bats test suite"
 
-install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks
+install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph
 	@echo ""
 	@echo "✓ Full installation complete!"
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install"'
@@ -83,6 +85,11 @@ install-claude-hooks: install-init
 	@chmod +x install/*.sh
 	@./install/claude-hooks.sh
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-claude-hooks"'
+
+install-codegraph:
+	@chmod +x install/*.sh
+	@./install/codegraph.sh $(CODEGRAPH_TARGET)
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-codegraph CODEGRAPH_TARGET=$(CODEGRAPH_TARGET)"'
 
 wezterm: install-init
 	@brew list --cask wezterm >/dev/null 2>&1 || brew install --cask wezterm
