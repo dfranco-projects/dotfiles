@@ -8,6 +8,7 @@ brew "htop"
 brew "bats-core"
 brew "gh"
 brew "glab"
+brew "rtk"
 
 # Dev casks
 cask "visual-studio-code"
