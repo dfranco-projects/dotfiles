@@ -61,13 +61,6 @@ To add `make install-foo` cleanly:
 4. Add `install-foo` to the `.PHONY` line and to the `install` aggregate target if it should be part of the full install.
 5. If installing packages, put them in a `brews/Brewfile.foo` rather than calling `brew install` inline (keeps install/uninstall symmetric — `uninstall_brewfile` parses the same file).
 
-## Known issues to be aware of
-
-- **`install/vscode.sh:7`** reads `$DOTFILES_DIR/.config/vscode/extensions.txt`, but the file actually lives at `$DOTFILES_DIR/stow/.config/vscode/extensions.txt`. The script silently warns and exits when the file is missing, so VS Code extensions are currently **not** installed by `make install-vscode`. Fix by prefixing `stow/`.
-- **`uninstall/dotfiles.sh:9`** runs `stow --delete .` from `DOTFILES_DIR`, but the install side uses package name `stow` (`stow -d . stow`). The delete invocation does not match and likely no-ops or errors; the `|| true` swallows it.
-
-Flag these if you're touching the surrounding code; don't silently inherit the pattern.
-
 ## Constraints
 
 - **Apple Silicon only.** `check_apple_silicon` in `install/_base.sh` hard-exits on `x86_64`. Don't add fallbacks for Intel.
