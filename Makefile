@@ -1,4 +1,4 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman terminal wezterm uninstall history clean-history theme test
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail terminal wezterm uninstall history clean-history theme test
 
 # Variables
 BROWSER ?= arc
@@ -22,6 +22,7 @@ help:
 	@echo "  make install-claude-hooks - Merge Claude Code tab-bar hooks into ~/.claude/settings.json"
 	@echo "  make install-codegraph    - Install CodeGraph CLI + wire its MCP into Claude Code (default: claude)"
 	@echo "  make install-caveman      - Install Caveman token-compression skill into Claude Code (default: claude)"
+	@echo "  make install-ponytail     - Install Ponytail code-minimization plugin into Claude Code"
 	@echo "  make wezterm              - Full WezTerm setup (cask + theme + stow dotfiles + Claude hooks)"
 	@echo ""
 	@echo "Uninstallation:"
@@ -43,7 +44,7 @@ help:
 	@echo "Tests:"
 	@echo "  make test                                  	# Run the bats test suite"
 
-install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman
+install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail
 	@echo ""
 	@echo "✓ Full installation complete!"
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install"'
@@ -97,6 +98,11 @@ install-caveman:
 	@chmod +x install/*.sh
 	@./install/caveman.sh $(CAVEMAN_TARGET)
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-caveman CAVEMAN_TARGET=$(CAVEMAN_TARGET)"'
+
+install-ponytail:
+	@chmod +x install/*.sh
+	@./install/ponytail.sh
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-ponytail"'
 
 wezterm: install-init
 	@brew list --cask wezterm >/dev/null 2>&1 || brew install --cask wezterm
