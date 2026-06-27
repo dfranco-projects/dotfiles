@@ -10,6 +10,15 @@
             "command": "bash ~/.claude/hooks/wezterm-mark.sh start"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/token-tools-apply.sh"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
