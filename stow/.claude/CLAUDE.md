@@ -80,7 +80,7 @@ Transform tasks into verifiable goals. For multi-step tasks, state a brief plan:
 
 ## Token-saving tools — quality comes first
 
-Four tools trade output quality for fewer tokens: **codegraph** (graph lookups instead of reading files), **rtk** (token-minimizing CLI proxy), **caveman** (compresses *your prose*), **ponytail** (minimizes *the code you write*). `/tokens` toggles them; their state lives in `~/.claude/token-tools.json`.
+Four tools trade output quality for fewer tokens: **codegraph** (graph lookups instead of reading files), **rtk** (token-minimizing CLI proxy), **caveman** (compresses *your prose*), **ponytail** (minimizes *the code you write*). `/tokens` toggles them per-project; state lives in `<repo>/.claude/token-tools.json`, **defaults to off for every tool**, and is auto-applied each new session by the `token-tools-apply` SessionStart hook. When codegraph is off it overrides the **CodeGraph** section below for that repo.
 
 These are optimizations, not defaults to defend. Correctness and clarity outrank token savings — always. When one is **on**, stay critical about what it changed in your output, and **turn it off yourself** (`/tokens <tool> off`, or the tool's native command) the moment it degrades the work — then redo the affected output and say why in one line. Don't wait to be told.
 
