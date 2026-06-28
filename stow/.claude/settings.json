@@ -54,6 +54,16 @@
             "command": "bash ~/.claude/hooks/wezterm-mark.sh pretooluse"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git commit*)",
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"Before writing this commit, follow the commit-messages skill (~/.claude/skills/commit-messages/SKILL.md): Conventional Commits, lowercase imperative subject, no Co-Authored-By trailer, no heredoc/EOF wrappers, default to title-only.\"}}'"
+          }
+        ]
       }
     ],
     "PostToolUse": [
