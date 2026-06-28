@@ -1,3 +1,4 @@
+alexowl.transparent-color-theme
 anthropic.claude-code
 josemurilloc.aura-spirit-dracula
 keyshout.sqlite-db-viewer

@@ -1,10 +1,9 @@
 {
     // ---- Favs ----
-    "editor.fontSize": 14,
-    "editor.lineHeight": 1.7,
-    "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",  //theme
+    "editor.fontSize": 12,
+    "editor.lineHeight": 2, //theme
     "editor.fontFamily": "MesloLGS Nerd Font Mono",
-    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.fontSize": 12,
     "terminal.integrated.fontFamily": "MesloLGS Nerd Font Mono",
     "window.zoomLevel": 0.7,
 
@@ -53,9 +52,14 @@
         "trafficLightPosition": {
             "x": 20,
             "y": 16
-        }
-    },  //app traffic light buttons position
+        },
+        "transparent": true,  //transparent window (mutually exclusive with vibrancy on macOS)
+        "backgroundColor": "#00000000"  //fully transparent bg
+    },  //app traffic light buttons position + transparency
     "custom-ui-style.stylesheet": {
+        ".monaco-workbench": "background-color: rgba(5, 8, 20, 0.85) !important",  //very dark navy semi-transparent tint — tweak RGB for hue, last value (0.85) for opacity
+        "body, .monaco-workbench .part, .monaco-workbench .part > .content, .monaco-workbench .part.sidebar, .monaco-workbench .part.activitybar, .monaco-workbench .part.auxiliarybar, .monaco-workbench .part.panel, .monaco-workbench .part.editor, .editor-group-container, .editor-group-container > .editor-container, .monaco-editor, .monaco-editor .margin, .monaco-editor-background, .split-view-view, .composite, .pane-body, .monaco-pane-view, .tabs-and-actions-container, .editor-group-container > .title": "background-color: transparent !important",  //keep every layer transparent so the single backdrop tint shows through uniformly
+        ".monaco-workbench .part.sidebar > .content, .monaco-workbench .part.sidebar .composite, .monaco-workbench .part.sidebar .pane, .monaco-workbench .part.sidebar .pane-header, .monaco-workbench .part.sidebar .pane-body, .monaco-workbench .part.sidebar .monaco-pane-view, .monaco-workbench .part.sidebar .monaco-list, .monaco-workbench .part.sidebar .monaco-list-rows, .monaco-workbench .part.sidebar .monaco-tl-contents, .monaco-workbench .part.auxiliarybar > .content, .monaco-workbench .part.auxiliarybar .composite, .monaco-workbench .part.auxiliarybar .pane-body, .monaco-workbench .part.auxiliarybar .monaco-list, .monaco-workbench .part.auxiliarybar .monaco-list-rows": "background-color: transparent !important",  //sidebar/aux inner containers the theme paints — let the tint show through
         ".notification-toast": "box-shadow: none !important",  //noti container shadow
         ".quick-input-widget.show-file-icons": "box-shadow: none !important",  //comd box shadow
         ".quick-input-widget": "top 25vh !important",  //cmd box position
@@ -144,5 +148,8 @@
     "git.confirmSync": false,
     "workbench.browser.showInTitleBar": true,
     "http.systemCertificatesNode": true,
-    "security.workspace.trust.untrustedFiles": "open"
+    "security.workspace.trust.untrustedFiles": "open",
+    "geminicodeassist.displayInlineContextHint": false,
+    "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
+    "window.customTitleBarVisibility": "never"
 }
