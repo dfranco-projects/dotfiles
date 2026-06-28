@@ -5,6 +5,9 @@
     ]
   },
   "model": "sonnet",
+  "env": {
+    "CLAUDE_CODE_AUTO_CONNECT_IDE": "false"
+  },
   "hooks": {
     "SessionStart": [
       {
