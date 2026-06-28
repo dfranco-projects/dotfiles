@@ -42,6 +42,7 @@ Postman/
 
 # AI / assistants
 .agent/
+.agents/
 .antigravity/
 .cagent/
 .claude/
@@ -64,3 +65,8 @@ Postman/
 .ssh/
 .Trash/
 .zsh_sessions/
+.zcompcache/
+
+# Agentic workflows
+.ml_training_agent/
+
