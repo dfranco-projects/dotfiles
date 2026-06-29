@@ -5,10 +5,28 @@
 # Usage: wezterm-mark.sh <notification|stop>
 set -eu
 
-kind="${1:?kind required (working|input|done|off|start|pretooluse)}"
+kind="${1:?kind required (working|input|done|off|start|pretooluse|notification)}"
 
 # Only meaningful in WezTerm.
 [ "${TERM_PROGRAM:-}" = "WezTerm" ] || exit 0
+
+# Dispatcher: the Notification hook fires for BOTH genuine requests (Claude
+# needs permission / is asking something -> orange) AND the end-of-turn idle
+# ping ("Claude is waiting for your input" -> Claude actually finished, should
+# stay green). Without this split, the idle ping sets the sticky input flag and
+# suppresses the green that the Stop hook wants. Parse the message so only real
+# requests show orange; everything else resolves to done (green).
+if [ "$kind" = "notification" ]; then
+	input=$(</dev/stdin)
+	msg=""
+	if [[ "$input" =~ \"message\"[[:space:]]*:[[:space:]]*\"([^\"]*)\" ]]; then
+		msg="${BASH_REMATCH[1]}"
+	fi
+	case "$msg" in
+		*[Pp]ermission*|*[Aa]pprov*|*[Cc]onfirm*) kind="input" ;;
+		*)                                         kind="done" ;;
+	esac
+fi
 
 # Dispatcher: read tool_name from hook stdin and pick the right kind.
 # Used by the PreToolUse hook so only ONE state write happens per tool call.
