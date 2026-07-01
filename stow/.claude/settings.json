@@ -1,4 +1,9 @@
 {
+  "permissions": {
+    "allow": [
+      "mcp__codegraph__*"
+    ]
+  },
   "model": "sonnet",
   "hooks": {
     "SessionStart": [
@@ -28,6 +33,14 @@
           {
             "type": "command",
             "command": "bash ~/.claude/hooks/wezterm-mark.sh working"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "codegraph prompt-hook"
           }
         ]
       }
