@@ -1,4 +1,4 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail terminal wezterm uninstall history clean-history theme test
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail install-macos-defaults terminal wezterm uninstall history clean-history theme test
 
 # Variables
 BROWSER ?= arc
@@ -15,6 +15,7 @@ help:
 	@echo "  make install-init         - Initialize base (checks, Homebrew, base packages)"
 	@echo "  make install-dev          - Install development stack"
 	@echo "  make install-mac-plugins  - Install macOS UI enhancements"
+	@echo "  make install-macos-defaults - Apply macOS System Settings tweaks (defaults write)"
 	@echo "  make install-browser      - Install browser(s) (default: arc)"
 	@echo "  make install-terminal     - Configure WezTerm theme (default: blurred)"
 	@echo "  make install-vscode       - Install VS Code extensions"
@@ -44,7 +45,7 @@ help:
 	@echo "Tests:"
 	@echo "  make test                                  	# Run the bats test suite"
 
-install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail
+install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail install-macos-defaults
 	@echo ""
 	@echo "✓ Full installation complete!"
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install"'
@@ -103,6 +104,11 @@ install-ponytail:
 	@chmod +x install/*.sh
 	@./install/ponytail.sh
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-ponytail"'
+
+install-macos-defaults:
+	@chmod +x install/*.sh
+	@./install/macos-defaults.sh
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-macos-defaults"'
 
 wezterm: install-init
 	@brew list --cask wezterm >/dev/null 2>&1 || brew install --cask wezterm
