@@ -4,7 +4,7 @@
       "mcp__codegraph__*"
     ]
   },
-  "model": "sonnet",
+  "model": "opus",
   "env": {
     "CLAUDE_CODE_AUTO_CONNECT_IDE": "false"
   },
