@@ -10,7 +10,7 @@ A personal macOS (Apple Silicon only) bootstrap that combines:
 - **GNU stow** for symlinking dotfiles from `stow/` into `$HOME`
 - **Bash scripts** under `install/` and `uninstall/` that mirror each other 1:1
 
-There is no build, no test suite, no lint config. "Running" the code means executing make targets that perform side effects on the host machine.
+There is no build or lint config. `make test` runs a small bats suite (`tests/`) that mechanically enforces the component conventions below. "Running" the code means executing make targets that perform side effects on the host machine.
 
 ## Common commands
 
@@ -21,12 +21,14 @@ make install-<component>        # See Makefile for the full list
 make install-browser BROWSER=arc|zen
 make install-terminal THEME=<name>   # Themes live in stow/.config/wezterm/themes/
 make theme-list                 # List available WezTerm themes
+make install-voice-control      # Hands-free Claude voice pipeline (brews + shortcut import + guided Voice Control)
+make test                       # Run the bats test suite
 make uninstall                  # Reverses install order via .dotfiles.history
 make history                    # Print install history
 make clean-history              # Delete .dotfiles.history
 ```
 
-`make install-dev`, `install-mac-plugins`, `install-browser` all depend on `install-init` (Makefile enforces this).
+`make install-dev`, `install-mac-plugins`, `install-browser`, `install-claude-hooks`, `install-voice-control` all depend on `install-init` (Makefile enforces this).
 
 ## Architecture
 
@@ -48,9 +50,15 @@ This history-driven uninstall is the reason every install target ends with a `lo
 - `Brewfile.dev` — language toolchains, Docker, tmux, IDEs
 - `Brewfile.mac-plugins` — UI apps (Rectangle, Stats, Raycast, …)
 - `Brewfile.browser` — used only for `BROWSER=zen` (the `arc` path calls `brew install arc` directly in `install/browser.sh`)
+- `Brewfile.voice-control` — CLI tools the `siri` skill's system toggles need (blueutil, brightness)
 
 ### WezTerm theme switching
 `install/terminal.sh` does not symlink themes — it **copies** `stow/.config/wezterm/themes/<THEME>/wezterm.lua` over `stow/.config/wezterm/wezterm.lua` (and theme assets into `stow/.config/wezterm/assets/`). Switching themes mutates files that are tracked in git; expect a diff after running it.
+
+### Voice pipeline (hands-free Claude)
+Say a wake phrase → macOS Voice Control runs the `claude-listen` Shortcut → it executes `~/.local/bin/claude-voice-listen` (stowed from `stow/.local/bin/`), which finds the focused WezTerm pane via `wezterm cli list-clients`/`list`, detects a Claude Code session by checking the pane's tty (`ps -t <tty>`), starts one in-place if absent, then taps `ctrl+y` (`voice:pushToTalk`, bound in `stow/.claude/keybindings.json`; tap mode set in `stow/.claude/settings.json`). Saying "over and out" has Voice Control press `ctrl+y` again — stop and auto-send.
+
+`shortcuts/` holds unsigned workflow plists (`claude-timer`, `claude-alarm`, `claude-dnd-on/off`, `claude-listen`) consumed by `install/voice-control.sh`, which signs each locally (`shortcuts sign -m anyone`) and `open`s it — one "Add Shortcut" click per shortcut. macOS has no CLI to create or export shortcuts; refreshing a file means Share > Copy iCloud Link on the shortcut, then downloading the `downloadURL` from `https://www.icloud.com/shortcuts/api/records/<id>`. Enabling Voice Control and its two custom commands is GUI-only by design — the install script opens the right Settings pane and prints the checklist. The `siri` device-control skill lives at `stow/.claude/skills/siri/SKILL.md` and reaches `~/.claude/skills/` via stow.
 
 ## Conventions for adding a new component
 
