@@ -54,6 +54,21 @@ alias wpp="open https://web.whatsapp.com/"
 alias teams="open /Applications/Microsoft\ Teams.app"
 alias mail="open /System/Applications/Mail.app"
 
+alias gs="git status"
+alias ga="git add"
+alias gaa="git add --all"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gco="git checkout"
+alias gcb="git checkout -b"
+alias gb="git branch"
+alias gd="git diff"
+alias gds="git diff --staged"
+alias gp="git push"
+alias gpl="git pull"
+alias glg="git log --oneline --graph --decorate"
+alias gst="git stash"
+
 # Open a repo in the browser. No arg = current repo; pass a folder name (looked
 # up under $DEV_ROOT, default ~/dev) or a path, e.g. `gho my-repo`. Resolved from
 # the repo's own git remote, so the folder name need not match the slug.
