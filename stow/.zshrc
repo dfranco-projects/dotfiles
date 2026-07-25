@@ -46,6 +46,7 @@ alias ll="eza -l --icons=always"
 alias la="eza -la --icons=always"
 alias cl="clear"
 alias ex="exit"
+alias cc="claude"
 
 alias login="gcloud auth login"
 alias app-login="gcloud auth application-default login"
