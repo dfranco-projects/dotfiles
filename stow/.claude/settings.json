@@ -120,7 +120,7 @@
   },
   "voice": {
     "enabled": true,
-    "mode": "hold"
+    "mode": "tap"
   },
   "voiceEnabled": true,
   "tui": "fullscreen"

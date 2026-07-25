@@ -1,0 +1,3 @@
+# CLI tools used by the siri skill's system toggles
+brew "blueutil"
+brew "brightness"

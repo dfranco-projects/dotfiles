@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# claude-voice-listen — run by the Voice Control wake-phrase shortcut.
+# Acts on the focused WezTerm pane: if it runs Claude Code, start voice input
+# there; if it's a plain shell, launch `claude` in that pane (same cwd) first.
+set -eu
+
+WEZTERM=/opt/homebrew/bin/wezterm
+CLAUDE=/opt/homebrew/bin/claude
+PY=/usr/bin/python3
+
+press_key() {
+	osascript \
+		-e 'tell application "System Events" to set frontApp to name of first process whose frontmost is true' \
+		-e 'if frontApp is not "wezterm-gui" then' \
+		-e 'tell application "WezTerm" to activate' \
+		-e 'delay 0.3' \
+		-e 'end if' \
+		-e 'tell application "System Events" to keystroke "y" using control down' \
+		-e 'beep'
+}
+
+claude_on_tty() {
+	ps -t "$1" -o comm= 2>/dev/null | grep -qx claude
+}
+
+# Cold start: no WezTerm at all — launch it running claude.
+if ! pgrep -f wezterm-gui >/dev/null; then
+	open -na WezTerm --args start -- "$CLAUDE"
+	for _ in $(seq 20); do
+		pgrep -x claude >/dev/null && break
+		sleep 1
+	done
+	sleep 3
+	press_key
+	exit 0
+fi
+
+focused=$("$WEZTERM" cli list-clients --format json | "$PY" -c \
+	'import json,sys; c=json.load(sys.stdin); print(c[0]["focused_pane_id"] if c else "")')
+
+if [ -z "$focused" ]; then
+	"$WEZTERM" cli spawn --new-window -- "$CLAUDE" >/dev/null
+	sleep 4
+	press_key
+	exit 0
+fi
+
+tty=$("$WEZTERM" cli list --format json | "$PY" -c \
+	"import json,sys; print(next((p['tty_name'] for p in json.load(sys.stdin) if p['pane_id']==$focused), ''))")
+tty=${tty#/dev/}
+
+if ! claude_on_tty "$tty"; then
+	# Focused pane is a shell: start claude in it, inheriting its cwd.
+	printf 'claude\n' | "$WEZTERM" cli send-text --no-paste --pane-id "$focused"
+	for _ in $(seq 15); do
+		claude_on_tty "$tty" && break
+		sleep 1
+	done
+	sleep 2
+fi
+
+press_key
