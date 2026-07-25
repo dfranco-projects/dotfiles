@@ -30,3 +30,6 @@ build/
 
 # gh auth state (account-specific)
 stow/.config/gh/hosts.yml
+
+# cagent state (machine-specific)
+stow/.config/cagent/
