@@ -73,6 +73,7 @@ alias gst="git stash"
 alias gwl="git worktree list"
 alias gwa="git worktree add"
 alias gwr="git worktree remove"
+alias gwp="git worktree prune"
 
 # Open a repo in the browser. No arg = current repo; pass a folder name (looked
 # up under $DEV_ROOT, default ~/dev) or a path, e.g. `gho my-repo`. Resolved from
