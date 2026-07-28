@@ -70,6 +70,9 @@ alias gp="git push"
 alias gpl="git pull"
 alias glg="git log --oneline --graph --decorate"
 alias gst="git stash"
+alias gwl="git worktree list"
+alias gwa="git worktree add"
+alias gwr="git worktree remove"
 
 # Open a repo in the browser. No arg = current repo; pass a folder name (looked
 # up under $DEV_ROOT, default ~/dev) or a path, e.g. `gho my-repo`. Resolved from
