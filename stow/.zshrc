@@ -56,6 +56,7 @@ alias teams="open /Applications/Microsoft\ Teams.app"
 alias mail="open /System/Applications/Mail.app"
 
 alias gs="git status"
+alias gss="git status --short"
 alias ga="git add"
 alias gaa="git add --all"
 alias gc="git commit"
