@@ -19,8 +19,6 @@
     "workbench.tree.indent":  8,  //indent level
     "workbench.colorCustomizations": {
         "editorCursor.background": "#000000",
-        "terminal.background": "#00000000",  //transparent terminal so the workbench tint shows
-        "panel.background": "#00000000",  //transparent panel (terminal host)
         "editorOverviewRuler.wordHighlightStrongForeground": "#0000",
         "editorOverviewRuler.selectionHighlightForeground": "#0000",
         "editorOverviewRuler.rangeHighlightForeground": "#0000",
@@ -48,45 +46,6 @@
     "extensions.ignoreRecommendations": true,  //extension recomendations
 
     "window.titleBarStyle": "native",  //vscode inbuilt top bar style
-
-    "custom-ui-style.electron": {
-        "titleBarStyle": "hiddenInset",  //app bar
-        "trafficLightPosition": {
-            "x": 20,
-            "y": 16
-        },
-        "transparent": true,  //transparent window (mutually exclusive with vibrancy on macOS)
-        "backgroundColor": "#00000000"  //fully transparent bg
-    },  //app traffic light buttons position + transparency
-    "custom-ui-style.stylesheet": {
-        ".monaco-workbench": "background-color: rgba(5, 8, 20, 0.85) !important",  //very dark navy semi-transparent tint — tweak RGB for hue, last value (0.85) for opacity
-        "body, .monaco-workbench .part, .monaco-workbench .part > .content, .monaco-workbench .part.sidebar, .monaco-workbench .part.activitybar, .monaco-workbench .part.auxiliarybar, .monaco-workbench .part.panel, .monaco-workbench .part.editor, .editor-group-container, .editor-group-container > .editor-container, .monaco-editor, .monaco-editor .margin, .monaco-editor-background, .split-view-view, .composite, .pane-body, .monaco-pane-view, .tabs-and-actions-container, .editor-group-container > .title": "background-color: transparent !important",  //keep every layer transparent so the single backdrop tint shows through uniformly
-        ".monaco-workbench .part.sidebar > .content, .monaco-workbench .part.sidebar .composite, .monaco-workbench .part.sidebar .pane, .monaco-workbench .part.sidebar .pane-header, .monaco-workbench .part.sidebar .pane-body, .monaco-workbench .part.sidebar .monaco-pane-view, .monaco-workbench .part.sidebar .monaco-list, .monaco-workbench .part.sidebar .monaco-list-rows, .monaco-workbench .part.sidebar .monaco-tl-contents, .monaco-workbench .part.auxiliarybar > .content, .monaco-workbench .part.auxiliarybar .composite, .monaco-workbench .part.auxiliarybar .pane-body, .monaco-workbench .part.auxiliarybar .monaco-list, .monaco-workbench .part.auxiliarybar .monaco-list-rows": "background-color: transparent !important",  //sidebar/aux inner containers the theme paints — let the tint show through
-        ".monaco-workbench .part.panel > .content, .monaco-workbench .terminal-outer-container, .monaco-workbench .integrated-terminal, .monaco-workbench .terminal-wrapper, .monaco-workbench .xterm, .monaco-workbench .xterm-viewport, .monaco-workbench .xterm-screen": "background-color: transparent !important",  //terminal containers — let the tint show like editor/sidebar
-        ".notification-toast": "box-shadow: none !important",  //noti container shadow
-        ".quick-input-widget.show-file-icons": "box-shadow: none !important",  //comd box shadow
-        ".quick-input-widget": "top 25vh !important",  //cmd box position
-        ".quick-input-list .scrollbar": "display: none",  //cmd box scrollbar
-        ".monaco-action-bar.quick-input-inline-action-bar": "display: none",  //trim cmd box
-        ".editor-widget.find-widget": "box-shadow: none; border-radius: 4px",  //search box shadow & corners
-        ".quick-input-titlebar": "background: #100B15 !important",  //vscode neovim extension bg
-        ".monaco-workbench .part.editor > .content .editor-group-container > .title.title-border-bottom:after": "display: none",  //title bar border
-        ".monaco-scrollable-element > .shadow.top": "display: none",  //file explorer title shadow
-        ".sidebar .title-label": "padding: 0 !important",  //sidebar title position
-        ".sidebar": "border: none !important",  //sidebar border
-        ".monaco-workbench .monaco-list:not(.element-focused):focus:before": "outline: none !important",  //sidebar outline
-        ".monaco-list-row.focused": "outline: none !important",  //sidebar file outlines
-        ".monaco.editor .scroll-decoration": "display: none",  //title bar shadow
-        ".title-actions": "display: none !important",  //title bar buttons
-        ".title.show-file-icons .label-container .monaco-icon-label.file-icon": "justify-content: center",  //center title text
-        ".title .monaco-icon-label:after": "margin-right: 0",  //removes error count
-        ".monaco-workbench .part.editor > .content .editor-group-container > .title > .label-container > .title-label": "padding-left: 75px",  //file name & path position
-        ".title .monaco-icon-label.file-icon": "margin: 0 60px",
-        ".monaco-editor .cursors-layer .cursor": "background-image: linear-gradient(135deg, #ffaffc 10%, #DA70D6 100%)"  //cursor gradient
-    },
-    "custom-ui-style.font.sansSerif": "MesloLGS Nerd Font Mono",  //font style
-    "custom-ui-style.font.monospace": "MesloLGS Nerd Font Mono",  //font style
-    "custom-ui-style.reload": true,  //custom-ui reload
 
     "editor.minimap.enabled": false,  //hides minimap
     "editor.multiCursorModifier": "ctrlCmd",  //switch option to cmd to select multi code lines
@@ -154,5 +113,8 @@
     "security.workspace.trust.untrustedFiles": "open",
     "geminicodeassist.displayInlineContextHint": false,
     "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
-    "window.customTitleBarVisibility": "never"
+    "window.customTitleBarVisibility": "never",
+    "extensions.supportAgentsWindow": {
+        "monokai.theme-monokai-pro-vscode": true
+    }
 }
