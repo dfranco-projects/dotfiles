@@ -1,4 +1,4 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail install-macos-defaults install-voice-control terminal wezterm uninstall history clean-history theme test
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail install-i-have-adhd install-macos-defaults install-voice-control terminal wezterm uninstall history clean-history theme test
 
 # Variables
 BROWSER ?= arc
@@ -24,6 +24,7 @@ help:
 	@echo "  make install-codegraph    - Install CodeGraph CLI + wire its MCP into Claude Code (default: claude)"
 	@echo "  make install-caveman      - Install Caveman token-compression skill into Claude Code (default: claude)"
 	@echo "  make install-ponytail     - Install Ponytail code-minimization plugin into Claude Code"
+	@echo "  make install-i-have-adhd  - Install i-have-adhd output-style plugin into Claude Code (always-on)"
 	@echo "  make install-voice-control - Set up hands-free Claude voice pipeline (brews + shortcuts + guided Voice Control)"
 	@echo "  make wezterm              - Full WezTerm setup (cask + theme + stow dotfiles + Claude hooks)"
 	@echo ""
@@ -46,7 +47,7 @@ help:
 	@echo "Tests:"
 	@echo "  make test                                  	# Run the bats test suite"
 
-install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail install-macos-defaults install-voice-control
+install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail install-i-have-adhd install-macos-defaults install-voice-control
 	@echo ""
 	@echo "✓ Full installation complete!"
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install"'
@@ -105,6 +106,11 @@ install-ponytail:
 	@chmod +x install/*.sh
 	@./install/ponytail.sh
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-ponytail"'
+
+install-i-have-adhd:
+	@chmod +x install/*.sh
+	@./install/i-have-adhd.sh
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-i-have-adhd"'
 
 install-macos-defaults:
 	@chmod +x install/*.sh
