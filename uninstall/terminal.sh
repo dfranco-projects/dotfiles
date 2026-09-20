@@ -1,20 +1,16 @@
 #!/bin/bash
-# Uninstall WezTerm theme (restore to default)
+# Uninstall WezTerm theme (restore the repo default theme)
 
 set -e
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_base.sh"
 
-THEME="${1:-default}"
+# Matches `THEME ?= blurred` in the Makefile. The theme being removed arrives as
+# $1 from the history entry; it is not what we restore to, so it is ignored.
+DEFAULT_THEME="blurred"
 
-log "Restoring WezTerm to default theme"
+log "Restoring WezTerm to the $DEFAULT_THEME theme"
 
-# Restore default theme
-DEFAULT_THEME_DIR="$DOTFILES_DIR/.config/wezterm/themes/default"
+# Reuse the install path so the shared keys.lua/tabs.lua injection stays intact.
+bash "$DOTFILES_DIR/install/terminal.sh" "$DEFAULT_THEME"
 
-if [[ -f "$DEFAULT_THEME_DIR/wezterm.lua" ]]; then
-    log "Restoring default WezTerm config"
-    cp "$DEFAULT_THEME_DIR/wezterm.lua" "$DOTFILES_DIR/.config/wezterm/wezterm.lua"
-    success "WezTerm restored to default theme"
-else
-    warn "Default theme not found, skipping WezTerm restoration"
-fi
+success "WezTerm restored to the $DEFAULT_THEME theme"

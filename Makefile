@@ -145,7 +145,7 @@ terminal:
 	@make install-terminal THEME=$(THEME)
 
 theme-list:
-	@ls -1 .config/wezterm/themes/ 2>/dev/null || echo "(no themes found)"
+	@ls -1 stow/.config/wezterm/themes/ 2>/dev/null || echo "(no themes found)"
 
 test:
 	@command -v bats >/dev/null 2>&1 || { echo "bats not installed (brew install bats-core)"; exit 1; }
