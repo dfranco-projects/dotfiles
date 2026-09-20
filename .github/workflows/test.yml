@@ -8,8 +8,7 @@ on:
 
 jobs:
   bats:
-    # macOS runner: the suite exercises BSD `tail -r` and mocks brew/stow rather
-    # than installing anything, so nothing here touches the host beyond bats.
+    # macOS runner: the suite needs BSD `tail -r`. brew and stow are mocked.
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v5

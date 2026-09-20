@@ -4,13 +4,12 @@
 set -e
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_base.sh"
 
-# Matches `THEME ?= kanagawa-dragon-gogh` in the Makefile. The theme being
-# removed arrives as $1 from the history entry; it is not what we restore to.
+# Mirrors THEME in the Makefile. $1 is the theme being removed, not the target.
 DEFAULT_THEME="kanagawa-dragon-gogh"
 
 log "Restoring WezTerm to the $DEFAULT_THEME theme"
 
-# Reuse the install path so the shared keys.lua/tabs.lua injection stays intact.
+# Reuse install so the keys/tabs injection stays.
 bash "$DOTFILES_DIR/install/terminal.sh" "$DEFAULT_THEME"
 
 success "WezTerm restored to the $DEFAULT_THEME theme"

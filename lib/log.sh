@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# Colour only when tput can describe the current terminal. Without the guard,
-# an unset or unusable $TERM (CI, piped output) makes tput exit nonzero and
-# takes the sourcing script down with it under `set -e`.
+# Without a usable $TERM, tput exits nonzero and takes the caller down with it.
 if tput sgr0 >/dev/null 2>&1; then
     BOLD="$(tput bold)"
     RESET="$(tput sgr0)"
