@@ -27,6 +27,10 @@ while IFS= read -r -d '' file; do
         esac
     fi
 
+    # Stow ignores this one (see stow/.stow-local-ignore) because Claude Code
+    # rewrites it at runtime, so leave the live copy in place.
+    [[ "$rel" == ".claude/settings.json" ]] && continue
+
     # Only act on real files. Symlinks belong to a previous stow run and
     # missing targets are no-ops.
     if [[ -f "$target" && ! -L "$target" ]]; then
@@ -40,8 +44,6 @@ done < <(find stow -type f -not -name '.DS_Store' -print0)
 # remain at any target, but if one slips through, stow will still succeed
 # (adopting it into the package on a single run) rather than aborting.
 stow --adopt -t ~ -d . stow
-
-rm -rf "$DOTFILES_DIR"/stow/.config/wezterm/.DS_Store
 
 success "Dotfiles applied"
 
