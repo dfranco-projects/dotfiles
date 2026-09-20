@@ -4,9 +4,9 @@
 set -e
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_base.sh"
 
-# Matches `THEME ?= blurred` in the Makefile. The theme being removed arrives as
-# $1 from the history entry; it is not what we restore to, so it is ignored.
-DEFAULT_THEME="blurred"
+# Matches `THEME ?= kanagawa-dragon-gogh` in the Makefile. The theme being
+# removed arrives as $1 from the history entry; it is not what we restore to.
+DEFAULT_THEME="kanagawa-dragon-gogh"
 
 log "Restoring WezTerm to the $DEFAULT_THEME theme"
 

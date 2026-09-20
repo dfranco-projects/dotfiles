@@ -2,7 +2,7 @@
 
 # Variables
 BROWSER ?= arc
-THEME ?= blurred
+THEME ?= kanagawa-dragon-gogh
 CODEGRAPH_TARGET ?= claude
 CAVEMAN_TARGET ?= claude
 DOTFILES_DIR ?= $(shell pwd)
@@ -17,7 +17,7 @@ help:
 	@echo "  make install-mac-plugins  - Install macOS UI enhancements"
 	@echo "  make install-macos-defaults - Apply macOS System Settings tweaks (defaults write)"
 	@echo "  make install-browser      - Install browser(s) (default: arc)"
-	@echo "  make install-terminal     - Configure WezTerm theme (default: blurred)"
+	@echo "  make install-terminal     - Configure WezTerm theme (default: kanagawa-dragon-gogh)"
 	@echo "  make install-vscode       - Install VS Code extensions"
 	@echo "  make install-dotfiles     - Apply dotfiles with stow"
 	@echo "  make install-claude-hooks - Merge Claude Code tab-bar hooks into ~/.claude/settings.json"
