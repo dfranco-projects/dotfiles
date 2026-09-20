@@ -6,4 +6,5 @@ ms-python.python
 ms-python.vscode-pylance
 ms-python.vscode-python-envs
 pkief.material-icon-theme
+shd101wyy.markdown-preview-enhanced
 tomoki1207.pdf

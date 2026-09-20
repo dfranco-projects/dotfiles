@@ -113,5 +113,6 @@
     "security.workspace.trust.untrustedFiles": "open",
     "geminicodeassist.displayInlineContextHint": false,
     "workbench.colorTheme": "Visual Studio Dark",
-    "window.customTitleBarVisibility": "never"
+    "window.customTitleBarVisibility": "never",
+    "markdown-preview-enhanced.previewTheme": "night.css"  //dark base, codex overrides live in ~/.local/state/crossnote/style.less
 }

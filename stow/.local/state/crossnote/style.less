@@ -1,0 +1,187 @@
+// Codex theme for Markdown Preview Enhanced.
+// Shares its palette with the glow style at ~/.config/glow/styles/codex.json.
+
+@bg:          #0a0f0c;
+@surface:     #0d1410;
+@surface-alt: #16211b;
+@callout:     #0f1a14;
+@rule:        #2a352e;
+
+@text:        #dce4de;
+@bright:      #f2f7f3;
+@muted:       #8c968f;
+@dim:         #6f7a73;
+
+@accent:      #5ccb96;
+@accent-dim:  #4fb587;
+@accent-soft: #8fd9b6;
+@code:        #7fe3b0;
+
+@serif: "Iowan Old Style", Charter, "New York", Georgia, serif;
+@sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif;
+@mono: "SF Mono", "JetBrains Mono", Menlo, ui-monospace, monospace;
+
+html body {
+  background: @bg;
+}
+
+.markdown-preview.markdown-preview {
+  background: @bg;
+  color: @text;
+  font-family: @sans;
+  font-size: 15px;
+  line-height: 1.7;
+
+  h1, h2, h3 {
+    font-family: @serif;
+    font-weight: 600;
+    color: @bright;
+    letter-spacing: 0;
+  }
+
+  h1 {
+    font-size: 2.6rem;
+    line-height: 1.15;
+    margin: 0 0 1.2rem;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+    margin: 2.8rem 0 1rem;
+    border: none;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+    margin: 2rem 0 .8rem;
+  }
+
+  // Small caps label, like the section eyebrows in the codex page.
+  h4, h5, h6 {
+    font-family: @mono;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: @accent-soft;
+    margin: 2rem 0 .6rem;
+  }
+
+  a {
+    color: @accent;
+    text-decoration: none;
+
+    &:hover {
+      color: @accent-soft;
+      text-decoration: underline;
+    }
+  }
+
+  strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  em {
+    color: @text;
+  }
+
+  hr {
+    height: 1px;
+    background: @rule;
+    margin: 2.5rem 0 !important;
+  }
+
+  ul, ol {
+    padding-left: 1.4rem;
+  }
+
+  li::marker {
+    color: @dim;
+  }
+
+  code {
+    font-family: @mono;
+    font-size: .88em;
+    color: @code;
+    background: @surface-alt;
+    padding: .12em .38em;
+    border-radius: 3px;
+  }
+
+  pre {
+    background: @surface;
+    border: 1px solid @rule;
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+
+    code {
+      background: none;
+      color: @text;
+      padding: 0;
+    }
+  }
+
+  // Blockquote as a codex callout: green rule, tinted panel, accent lead-in.
+  blockquote {
+    background: @callout;
+    border-left: 2px solid @accent;
+    border-radius: 0 4px 4px 0;
+    color: @text;
+    margin: 1.6rem 0;
+    padding: 1rem 1.2rem;
+
+    p:first-child strong:first-child {
+      color: @accent;
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.4rem 0;
+  }
+
+  th, td {
+    border: none;
+    border-bottom: 1px solid @rule;
+    padding: .6rem .9rem .6rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    font-family: @mono;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: @muted;
+  }
+
+  td code {
+    color: @accent;
+    background: none;
+    padding: 0;
+  }
+}
+
+// Sidebar table of contents.
+.preview-container.show-sidebar-toc .md-sidebar-toc {
+  background: @bg;
+  border-right: 1px solid @rule;
+  font-family: @sans;
+
+  a {
+    color: @muted;
+    text-decoration: none;
+
+    &:hover {
+      color: @accent;
+    }
+  }
+
+  .md-toc-link-wrapper.highlighted > a {
+    color: @bright;
+  }
+}
