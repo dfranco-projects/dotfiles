@@ -6,7 +6,7 @@ setup() {
 
 # install/X.sh files that intentionally have no uninstall counterpart.
 # Update this list when adding new bootstrap-only or utility scripts.
-NO_UNINSTALL_REQUIRED=(_base.sh _history.sh init.sh shell.sh)
+NO_UNINSTALL_REQUIRED=(_base.sh _history.sh init.sh)
 
 is_exempt() {
     local name="$1"
@@ -74,4 +74,16 @@ is_exempt() {
             false
         }
     done < <(grep -oE '^install-[a-z-]+:' "$DOTFILES_REPO_DIR/Makefile" | sed 's/://')
+}
+
+@test "every brew share sourced by .zshrc is installed by a Brewfile" {
+    local missing=()
+    while IFS= read -r pkg; do
+        grep -qE "^brew \"$pkg\"" "$DOTFILES_REPO_DIR"/brews/Brewfile.* || missing+=("$pkg")
+    done < <(grep -oE '/opt/homebrew/share/[a-z0-9-]+' "$DOTFILES_REPO_DIR/stow/.zshrc" \
+        | sed 's|.*/||' | sort -u)
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        echo ".zshrc sources brew packages no Brewfile installs: ${missing[*]}"
+        false
+    fi
 }

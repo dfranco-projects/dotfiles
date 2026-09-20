@@ -6,6 +6,9 @@ brew "make"
 
 # Shell
 brew "zsh"
+brew "powerlevel10k"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
 
 # Essential CLI tools
 brew "bat"
