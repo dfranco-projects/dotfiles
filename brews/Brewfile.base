@@ -9,6 +9,7 @@ brew "zsh"
 
 # Essential CLI tools
 brew "bat"
+brew "glow"
 brew "ripgrep"
 brew "fd"
 brew "jq"

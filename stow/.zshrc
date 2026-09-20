@@ -115,6 +115,11 @@ fi
 
 eval "$(direnv hook zsh)"
 
+# ----------------------------------- GLOW ------------------------------------
+
+export GLOW_CONFIG_HOME="$HOME/.config/glow"
+alias glow='glow --style "$HOME/.config/glow/styles/codex.json"'
+
 # ----------------------------------- FZF -------------------------------------
 
 export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git . ~"
