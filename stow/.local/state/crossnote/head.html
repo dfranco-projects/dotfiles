@@ -1,8 +1,5 @@
 <!-- The content below will be included at the end of the <head> element. -->
 <script type="text/javascript">
-  // VS Code allows pinch-zoom inside webviews and offers no setting to turn it
-  // off (microsoft/vscode#182013), so swallow the gestures here. Chromium
-  // delivers a trackpad pinch as a wheel event with ctrlKey set.
   window.addEventListener(
     "wheel",
     function (e) {

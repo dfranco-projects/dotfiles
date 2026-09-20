@@ -114,6 +114,6 @@
     "geminicodeassist.displayInlineContextHint": false,
     "workbench.colorTheme": "Visual Studio Dark",
     "window.customTitleBarVisibility": "never",
-    "markdown-preview-enhanced.previewTheme": "night.css",  //dark base, codex overrides live in ~/.local/state/crossnote/style.less
-    "markdown-preview-enhanced.enablePreviewScripts": true  //runs head.html, which swallows trackpad pinch-zoom in the preview
+    "markdown-preview-enhanced.previewTheme": "night.css",
+    "markdown-preview-enhanced.enablePreviewScripts": true
 }
