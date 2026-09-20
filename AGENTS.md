@@ -10,13 +10,13 @@ A personal macOS (Apple Silicon only) bootstrap that combines:
 - **GNU stow** for symlinking dotfiles from `stow/` into `$HOME`
 - **Bash scripts** under `install/` and `uninstall/` that mirror each other 1:1
 
-There is no build or lint config. `make test` runs a small bats suite (`tests/`) that mechanically enforces the component conventions below. "Running" the code means executing make targets that perform side effects on the host machine.
+There is no build or lint config. `make test` runs a small bats suite (`tests/`) that mechanically enforces the component conventions below; GitHub Actions runs the same suite on push and pull requests (`.github/workflows/test.yml`). "Running" the code means executing make targets that perform side effects on the host machine.
 
 ## Common commands
 
 ```bash
 make help                       # List all targets
-make install                    # Full install (init + dev + mac-plugins + browser + terminal + vscode + dotfiles)
+make install                    # Full install (every install-<component> target)
 make install-<component>        # See Makefile for the full list
 make install-browser BROWSER=arc|zen
 make install-terminal THEME=<name>   # Themes live in stow/.config/wezterm/themes/
@@ -46,7 +46,7 @@ This history-driven uninstall is the reason every install target ends with a `lo
 - `.stowignore` filters out `.DS_Store`, VCS files, build artifacts, etc.
 
 ### Brewfile split
-- `Brewfile.base` — always installed; CLI essentials (git, ripgrep, fd, fzf, eza, stow, …)
+- `Brewfile.base` — always installed; CLI essentials (git, ripgrep, fd, fzf, eza, stow, …) plus the zsh prompt and plugins `.zshrc` sources
 - `Brewfile.dev` — language toolchains, Docker, tmux, IDEs
 - `Brewfile.mac-plugins` — UI apps (Rectangle, Stats, Raycast, …)
 - `Brewfile.browser` — used only for `BROWSER=zen` (the `arc` path calls `brew install arc` directly in `install/browser.sh`)

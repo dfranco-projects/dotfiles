@@ -95,16 +95,15 @@ When you run `make install-dotfiles`, stow creates symlinks from `stow/` into yo
 - Zen
 
 ### Shell
-- Zsh + Oh My Zsh
+- Zsh
 - Powerlevel10k prompt
 - Autosuggestions
 - Syntax highlighting
 - Shared history setup
 
 ### Terminal Themes
-- **apathy**
-- **blues**
-- **blurred**
+Run `make theme-list` for the full set under `stow/.config/wezterm/themes/`.
+Default: **kanagawa-dragon-gogh**.
 
 ### Configs Included
 - `.zshrc` - Shell configuration

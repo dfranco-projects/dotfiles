@@ -11,7 +11,7 @@ help:
 	@echo "Dotfiles Setup - Available targets:"
 	@echo ""
 	@echo "Installation:"
-	@echo "  make install              - Full installation (init + dev + shell + dotfiles)"
+	@echo "  make install              - Full installation (every component below)"
 	@echo "  make install-init         - Initialize base (checks, Homebrew, base packages)"
 	@echo "  make install-dev          - Install development stack"
 	@echo "  make install-mac-plugins  - Install macOS UI enhancements"
