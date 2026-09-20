@@ -9,7 +9,7 @@ if ! command -v code >/dev/null 2>&1; then
     exit 0
 fi
 
-EXTENSIONS_FILE="$DOTFILES_DIR/.config/vscode/extensions.txt"
+EXTENSIONS_FILE="$DOTFILES_DIR/stow/.config/vscode/extensions.txt"
 
 if [[ ! -f "$EXTENSIONS_FILE" ]]; then
     warn "Extensions file not found: $EXTENSIONS_FILE"

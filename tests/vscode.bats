@@ -38,3 +38,9 @@ setup() {
     [ -n "$actual" ]
     [ "$actual" = "$expected" ]
 }
+
+@test "uninstall/vscode.sh references EXTENSIONS_FILE under stow/" {
+    run grep -E '^EXTENSIONS_FILE=' "$DOTFILES_REPO_DIR/uninstall/vscode.sh"
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"stow/.config/vscode/extensions.txt"* ]]
+}
