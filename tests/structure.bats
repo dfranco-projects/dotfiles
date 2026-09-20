@@ -87,3 +87,22 @@ is_exempt() {
         false
     fi
 }
+
+@test "scripts reference stowed paths through stow/ (not \$DOTFILES_DIR/.config)" {
+    # install/terminal.sh copies into stow/.config/...; anything reaching for
+    # "$DOTFILES_DIR/.config" (or .claude/.local) points at a path that does
+    # not exist and silently no-ops.
+    run grep -rnE '\$(DOTFILES_DIR|\{DOTFILES_DIR\})/\.(config|claude|local)' \
+        "$DOTFILES_REPO_DIR/install" "$DOTFILES_REPO_DIR/uninstall"
+    [ "$status" -ne 0 ] || {
+        echo "paths missing the stow/ prefix:"
+        echo "$output"
+        false
+    }
+}
+
+@test "Makefile reads wezterm themes from stow/" {
+    run grep -n 'wezterm/themes' "$DOTFILES_REPO_DIR/Makefile"
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"stow/.config/wezterm/themes/"* ]]
+}
