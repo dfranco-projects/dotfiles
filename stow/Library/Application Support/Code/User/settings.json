@@ -113,8 +113,5 @@
     "security.workspace.trust.untrustedFiles": "open",
     "geminicodeassist.displayInlineContextHint": false,
     "workbench.colorTheme": "Visual Studio Dark",
-    "window.customTitleBarVisibility": "never",
-    "extensions.supportAgentsWindow": {
-        "monokai.theme-monokai-pro-vscode": true
-    }
+    "window.customTitleBarVisibility": "never"
 }
