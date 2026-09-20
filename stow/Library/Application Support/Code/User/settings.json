@@ -13,7 +13,7 @@
     "workbench.startupEditor": "none",  //vscode clean start
     "workbench.tips.enabled": false,  //disables shortcuts tips
     "workbench.sideBar.location": "right",  //sidebar
-    "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",  //icons for files
+    "workbench.iconTheme": "Visual Studio Dark Icons",  //icons for files
     "workbench.tree.enableStickyScroll": true,  //parent folder during scroll
     "workbench.tree.renderIndentGuides": "none",  //indent lines
     "workbench.tree.indent":  8,  //indent level
@@ -112,7 +112,7 @@
     "http.systemCertificatesNode": true,
     "security.workspace.trust.untrustedFiles": "open",
     "geminicodeassist.displayInlineContextHint": false,
-    "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
+    "workbench.colorTheme": "Visual Studio Dark",
     "window.customTitleBarVisibility": "never",
     "extensions.supportAgentsWindow": {
         "monokai.theme-monokai-pro-vscode": true
