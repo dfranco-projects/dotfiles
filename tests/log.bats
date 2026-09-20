@@ -33,3 +33,10 @@ setup() {
     [[ "$output" == *"✖"* ]]
     [[ "$output" == *"bad"* ]]
 }
+
+@test "log.sh works when TERM is unset" {
+    run env -u TERM bash -c "set -e; source '$DOTFILES_REPO_DIR/lib/log.sh'; log hi"
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"==>"* ]]
+    [[ "$output" == *"hi"* ]]
+}
