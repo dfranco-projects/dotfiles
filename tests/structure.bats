@@ -104,3 +104,20 @@ is_exempt() {
     [ "$status" -eq 0 ]
     [[ "$output" == *"stow/.config/wezterm/themes/"* ]]
 }
+
+@test "every command install/ checks for is installed by a Brewfile" {
+    local missing=() cmd pkg
+    while IFS= read -r cmd; do
+        case "$cmd" in
+            git|brew|codegraph) continue ;;  # bootstrap, or its own installer
+            claude) pkg="claude-code" ;;
+            code)   pkg="visual-studio-code" ;;
+            *)      pkg="$cmd" ;;
+        esac
+        grep -qE "^(brew|cask) \"$pkg" "$DOTFILES_REPO_DIR"/brews/Brewfile.* || missing+=("$cmd")
+    done < <(grep -hoE 'command -v [a-z0-9_-]+' "$DOTFILES_REPO_DIR"/install/*.sh | awk '{print $3}' | sort -u)
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        echo "install/ needs commands no Brewfile installs: ${missing[*]}"
+        false
+    fi
+}
