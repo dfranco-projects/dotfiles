@@ -25,6 +25,8 @@ __pycache__/
 
 # SDKs / dev tools
 google-cloud-sdk/
+.codegraph/
+.homebrew/
 Postman/
 .azure/
 .docker/
@@ -48,6 +50,7 @@ Postman/
 .claude/
 .copilot/
 .gemini/
+.google_workspace_mcp/
 .ollama/
 
 # Caches & runtime
