@@ -1,0 +1,7 @@
+# Claude Code plugins installed at user scope by `make install-claude-plugins`.
+# One plugin@marketplace per line. i-have-adhd has its own target.
+context7@claude-plugins-official
+pyright-lsp@claude-plugins-official
+playwright@claude-plugins-official
+frontend-design@claude-plugins-official
+mattpocock-skills@claude-plugins-official

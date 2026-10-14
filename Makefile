@@ -1,4 +1,4 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-i-have-adhd install-macos-defaults install-voice-control terminal wezterm uninstall history clean-history theme-list test
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-i-have-adhd install-claude-plugins install-macos-defaults install-voice-control terminal wezterm uninstall history clean-history theme-list test
 
 # Variables
 BROWSER ?= arc
@@ -22,6 +22,7 @@ help:
 	@echo "  make install-claude-hooks - Merge Claude Code tab-bar hooks into ~/.claude/settings.json"
 	@echo "  make install-codegraph    - Install CodeGraph CLI + wire its MCP into Claude Code (default: claude)"
 	@echo "  make install-i-have-adhd  - Install i-have-adhd output-style plugin into Claude Code (always-on)"
+	@echo "  make install-claude-plugins - Install the Claude Code plugins in claude/plugins.txt (user scope)"
 	@echo "  make install-voice-control - Set up hands-free Claude voice pipeline (brews + shortcuts + guided Voice Control)"
 	@echo "  make wezterm              - Full WezTerm setup (cask + theme + stow dotfiles + Claude hooks)"
 	@echo ""
@@ -44,7 +45,7 @@ help:
 	@echo "Tests:"
 	@echo "  make test                                  	# Run the bats test suite"
 
-install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-i-have-adhd install-macos-defaults install-voice-control
+install: install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-i-have-adhd install-claude-plugins install-macos-defaults install-voice-control
 	@echo ""
 	@echo "✓ Full installation complete!"
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install"'
@@ -98,6 +99,11 @@ install-i-have-adhd:
 	@chmod +x install/*.sh
 	@./install/i-have-adhd.sh
 	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-i-have-adhd"'
+
+install-claude-plugins:
+	@chmod +x install/*.sh
+	@./install/claude-plugins.sh
+	@DOTFILES_DIR=$(DOTFILES_DIR) bash -c 'source ./install/_history.sh && log_history "make install-claude-plugins"'
 
 install-macos-defaults:
 	@chmod +x install/*.sh
