@@ -33,3 +33,9 @@ stow/.config/gh/hosts.yml
 
 # cagent state (machine-specific)
 stow/.config/cagent/
+
+# CLI credentials and Raycast runtime state (machine-specific, contain tokens)
+stow/.config/gcloud/
+stow/.config/anthropic/
+stow/.config/raycast/aster-endpoint.json
+stow/.config/raycast/node-compile-cache/
