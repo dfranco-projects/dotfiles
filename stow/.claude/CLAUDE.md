@@ -6,6 +6,7 @@ Optimize for fast iteration and SWE best practices. Always apply standard softwa
 
 ### Think before coding
 - State assumptions explicitly. If uncertain, ask.
+- For non-trivial or ambiguous work, interview me one question at a time until we agree on what to build. Only then plan.
 - Present tradeoffs when multiple approaches exist — don't pick silently.
 - If something is unclear, stop and name what's confusing.
 - Apply best practices. When unclear, search the codebase first, then the internet (official docs, well-regarded sources) — don't guess from training data.
@@ -22,6 +23,7 @@ Scope: applies to new projects/components. For changes inside existing code, **S
 - Minimum code that solves the problem. Nothing speculative.
 - No features beyond what was asked.
 - No abstractions for single-use code; no error handling for impossible scenarios.
+- Prefer deep modules: a small, simple interface hiding substantial logic. Avoid shallow pass-through layers and wrappers that add an interface without hiding complexity.
 - If you write 200 lines and it could be 50, rewrite it.
 
 ### Surgical changes
@@ -39,6 +41,7 @@ Transform tasks into verifiable goals. For multi-step tasks, state a brief plan:
 
 ### Testing
 - Write unit tests for new features and non-trivial logic. Run them before reporting work done.
+- Verify before saying done: run the test or command and cite its output. For UI changes, open the page with Playwright and check a screenshot. If you could not verify, say so.
 - E2E tests only when necessary — auth flows, critical user paths, anything crossing process boundaries.
 - Don't test trivial code (one-line wrappers, plain getters).
 - Match the project's existing test framework and conventions. Don't introduce a new runner.
