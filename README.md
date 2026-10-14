@@ -38,8 +38,6 @@ make install-vscode          # VS Code extensions
 make install-dotfiles        # Apply shell configs
 make install-claude-hooks    # Claude Code tab-bar hooks for WezTerm
 make install-codegraph       # CodeGraph CLI + MCP wiring for Claude Code
-make install-caveman         # Caveman token-compression skill for Claude Code
-make install-ponytail        # Ponytail code-minimization plugin for Claude Code
 make install-i-have-adhd     # i-have-adhd output-style plugin for Claude Code (always-on)
 make install-macos-defaults  # macOS System Settings tweaks
 make install-voice-control   # Hands-free Claude voice pipeline

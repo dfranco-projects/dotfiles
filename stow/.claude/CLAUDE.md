@@ -78,17 +78,9 @@ Transform tasks into verifiable goals. For multi-step tasks, state a brief plan:
 
 ---
 
-## Token-saving tools — quality comes first
+## CodeGraph toggle
 
-Four tools trade output quality for fewer tokens: **codegraph** (graph lookups instead of reading files), **rtk** (token-minimizing CLI proxy), **caveman** (compresses *your prose*), **ponytail** (minimizes *the code you write*). `/tokens` toggles them per-project; state lives in `<repo>/.claude/token-tools.json`, **defaults to off for every tool**, and is auto-applied each new session by the `token-tools-apply` SessionStart hook. When codegraph is off it overrides the **CodeGraph** section below for that repo.
-
-These are optimizations, not defaults to defend. Correctness and clarity outrank token savings — always. When one is **on**, stay critical about what it changed in your output, and **turn it off yourself** (`/tokens <tool> off`, or the tool's native command) the moment it degrades the work — then redo the affected output and say why in one line. Don't wait to be told.
-
-Watch for, per tool:
-- **codegraph** → results that are stale, partial, or contradict the actual files. Fall back to grep/Read; suggest re-indexing.
-- **rtk** → truncated or lossy responses, or added errors/latency. Bypass it.
-- **caveman** → terseness that loses needed detail, garbles a technical explanation, or confuses the user. Switch to normal prose.
-- **ponytail** → minimalism that drops error handling, safety, or readability, or under-builds what was asked. Dial down or off — never let "less code" beat "correct code".
+`/tokens codegraph on|off` sets codegraph per repo; state lives in `<repo>/.claude/token-tools.json` (default off) and the `token-tools-apply` SessionStart hook re-applies it. When off, it overrides the **CodeGraph** section below for that repo. If codegraph results are stale, partial, or contradict the actual files, fall back to grep/Read and suggest re-indexing.
 
 <!-- CODEGRAPH_START -->
 ## CodeGraph
