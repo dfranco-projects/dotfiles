@@ -6,6 +6,7 @@ brew "poetry"
 brew "tmux"
 brew "htop"
 brew "bats-core"
+brew "pyright"
 brew "gh"
 brew "glab"
 
