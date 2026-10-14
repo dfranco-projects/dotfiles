@@ -142,7 +142,7 @@ clean-history:
 	@echo "History file cleared"
 
 terminal:
-	@make install-terminal THEME=$(THEME)
+	@$(MAKE) install-terminal THEME=$(THEME)
 
 theme-list:
 	@ls -1 stow/.config/wezterm/themes/ 2>/dev/null || echo "(no themes found)"
