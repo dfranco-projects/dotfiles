@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "brew",
+  "description": "Search, install and manage Homebrew formulae and casks",
+  "author": {
+    "name": "nhojb"
+  },
+  "license": "MIT"
+}
