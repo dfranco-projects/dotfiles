@@ -1,4 +1,4 @@
-.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail install-i-have-adhd install-macos-defaults install-voice-control terminal wezterm uninstall history clean-history theme test
+.PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-caveman install-ponytail install-i-have-adhd install-macos-defaults install-voice-control terminal wezterm uninstall history clean-history theme-list test
 
 # Variables
 BROWSER ?= arc

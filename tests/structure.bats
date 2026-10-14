@@ -121,3 +121,11 @@ is_exempt() {
         false
     fi
 }
+
+@test ".PHONY lists exactly the Makefile targets" {
+    local mk="$DOTFILES_REPO_DIR/Makefile"
+    run diff \
+        <(grep '^\.PHONY:' "$mk" | tr ' ' '\n' | grep -v '^\.PHONY:$' | sort) \
+        <(grep -oE '^[a-z][a-z-]*:' "$mk" | tr -d ':' | sort -u)
+    [ "$status" -eq 0 ] || { echo "$output"; false; }
+}
