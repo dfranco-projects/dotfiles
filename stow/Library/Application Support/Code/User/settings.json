@@ -48,7 +48,7 @@
     "window.titleBarStyle": "native",  //vscode inbuilt top bar style
 
     "editor.minimap.enabled": false,  //hides minimap
-    "editor.multiCursorModifier": "ctrlCmd",  //switch option to cmd to select multi code lines
+    "editor.multiCursorModifier": "alt",  //alt+click adds cursors, cmd+click goes to definition
     "editor.cursorBlinking": "blink",  //cursor blink
     "editor.cursorStyle": "line",  //cursor style
     "editor.tokenColorCustomizations": {
