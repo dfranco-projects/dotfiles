@@ -1,6 +1,6 @@
 ---
 name: pr-review
-description: Use when asked to review, evaluate, or give feedback on a PR/MR (GitHub or GitLab), a branch, or a diff. Structured review across correctness, time complexity, codebase-pattern consistency, design, security, and tests, with the user's comment style for anything posted.
+description: Use when asked to review, evaluate, or give feedback on a PR/MR (GitHub or GitLab), a branch, or a diff. Structured review across correctness, concurrency, data loss, regressions, complexity, resource limits, security, deploy safety, operability, codebase-pattern consistency, design, and tests, with the user's comment style for anything posted.
 ---
 
 # PR/MR Review
@@ -21,6 +21,7 @@ The diff alone is not enough context. Review the change against the repo it live
 - Read the surrounding code of every non-trivial hunk: the whole function/class, not just changed lines.
 - Find how the repo already solves similar problems (naming, layering, error handling, test layout). Grep for sibling implementations before judging a new one.
 - Read the repo's stated conventions if present: `CLAUDE.md`, `CONTRIBUTING.md`, `docs/`, lint/format configs. A convention you can cite beats an opinion.
+- Check recent history of each changed file: `git log --oneline -10 -- <file>`. Recent changes to the same area are high-signal.
 
 ## 3. Review dimensions
 
@@ -28,15 +29,29 @@ Work through each. Skip a dimension only if the diff clearly can't contain it.
 
 **Correctness** — logic errors, boundary values, off-by-one, null handling, error paths, races/concurrency, transaction boundaries, partial-failure states. Before flagging a bug, construct the concrete input/state that triggers it. No trigger, no bug.
 
+**Concurrency** — ask "what if two requests hit this at the same instant?" Check-then-act without a lock or atomic op (TOCTOU), SELECT-then-INSERT without a unique constraint, startup code that runs on every instance without an idempotent guard, shared mutable state (module-level dicts, singletons, class caches) touched by concurrent requests, locks without a TTL. On async paths: sync I/O or CPU work blocking the event loop, fan-out that one failure kills, awaits on external calls without a timeout.
+
+**Data loss & correctness over time** — trace the data from write through storage to every read path. Delete-all + re-insert that drops fields a partial update didn't send, two read paths that can disagree (cache vs DB), `ON CONFLICT DO NOTHING` swallowing writes the caller expected, silent truncation, stored vs displayed vs exported formats drifting apart, enum members or config keys deleted while stored rows still hold them.
+
+**Regressions** — the check reviewers most often skip. For each removed block of non-trivial code, find why it was added: `git log -1 -p -S "<distinctive line>" -- <file>`. A guard, null check, error handler or flag added by an earlier change needs a reason to go. If the branch has a merge commit, check the conflict resolution didn't drop either side.
+
 **Time & space complexity** — identify the big-O of new algorithms and data access. Flag O(n²) or worse on unbounded input without justification. N+1 queries (query inside a loop that should be batched or eager-loaded). Unbounded memory: full-table loads, caches without eviction, accumulating collections. Missing pagination on list endpoints. Blocking I/O or CPU work on async paths. Hot-path allocations (regex compiled per call, object churn in loops).
 
 **Consistency with codebase patterns** — the change should read like the rest of the repo wrote it. Compare against the step 2 baseline: naming, module placement, how errors/config/logging/DI are done elsewhere, logic that duplicates an existing util. When flagging a deviation, cite the existing pattern with `file:line`.
 
 **Design & architecture** — does this behavior belong where it was put; dependency direction respects the layering; interfaces minimal; abstractions not leaking. Would a maintainer look for this code here?
 
-**Simplicity & scope** — over-engineering, speculative abstraction, config for things that never vary, dead code, drive-by refactors unrelated to the stated intent. If 200 lines could be 50, say so.
+**Simplicity & scope** — over-engineering, speculative abstraction, config for things that never vary, dead code, drive-by refactors unrelated to the stated intent. If 200 lines could be 50, say so. Watch for AI-generated clutter: comments narrating what the code does, multi-line docstrings on trivial methods, try/except a global handler already covers, defensive checks for states the call site can't produce.
 
-**Security** — injection (SQL/command/path), missing authn/authz on new surfaces, secrets in code, unvalidated input at trust boundaries, unsafe deserialization, sensitive data in logs.
+**Naming** — misleading names (a `get_*` that mutates, a bool param whose `True` meaning isn't obvious), the same concept named two ways within the PR, constants that should be enum members.
+
+**Resource limits** — work out the worst case: max concurrent requests × max payload vs instance memory. Request bodies or uploads read without a server-side size limit (frontend limits are bypassable), compressed input checked only by compressed size (decompression bombs), queries without a LIMIT, file handles, connections or temp files not cleaned up on error paths.
+
+**Security** — injection (SQL/command/path), missing authn/authz on new surfaces, unscoped queries (can user A read user B's rows? check the WHERE clause), cache keys missing the user identity, endpoints that skip frontend-only validation when called directly, user-uploaded files served without `Content-Disposition`, secrets in code, unvalidated input at trust boundaries, unsafe deserialization, sensitive data in logs or error messages.
+
+**Deploy safety** — ask "what happens while old and new instances both serve traffic?" Migrations that take long exclusive locks on big tables, code that assumes the new schema before the migration ran, removed or renamed API fields that existing clients still send, new env vars or secrets nobody provisioned, container start commands that no longer match the build output.
+
+**Operability** — ask "if this fails at 3am, how does on-call find out and what do they do?" New external dependencies without timeouts, retries or a fallback, new caches without an eviction policy, INFO logs that fire on every request, new failure modes with no metric or log.
 
 **Tests** — new behavior has tests in the same PR; tests assert behavior, not implementation; failure paths and edges covered; the tests would actually fail if the code were wrong.
 
