@@ -91,7 +91,7 @@ wkt() {
         1) folder="$dirs" ;;
         *) folder=$(printf '%s\n' "$dirs" | fzf --prompt="worktrees folder> ") || return 1 ;;
     esac
-    trees=$(find "$root/$folder" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+    trees=$(find "$root/$folder" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec basename {} \; | sort)
     [[ -n "$trees" ]] || { echo "wkt: no worktrees in $root/$folder" >&2; return 1; }
     pick=$(printf '%s\n' "$trees" | fzf --select-1 --prompt="$folder> ") || return 1
     cd "$root/$folder/$pick"
