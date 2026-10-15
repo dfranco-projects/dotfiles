@@ -273,6 +273,7 @@ alias arc="arc_search"
 # alias ff="firefox_search"
 alias yt="yt_search"
 alias conda-init="conda_activate"
+alias gem="gemini"
 
 # --------------------------- SYNTAX HIGHLIGHTING -----------------------------
 
