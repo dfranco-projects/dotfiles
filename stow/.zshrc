@@ -75,21 +75,26 @@ alias gwa="git worktree add"
 alias gwr="git worktree remove"
 alias gwp="git worktree prune"
 
-# cd into the repo's agent worktrees folder (.claude/worktrees, .antigravity/
-# worktrees, ...). Searches the main repo root, so it works from inside a
-# worktree too; outside a repo it searches $PWD. Several found = fzf menu.
+# cd into one of the repo's agent worktrees (.claude/worktrees/<name>,
+# .antigravity/worktrees/<name>, ...). Searches the main repo root, so it works
+# from inside a worktree too; outside a repo it searches $PWD. Several worktrees
+# folders = fzf menu to pick one first, then an fzf menu of its worktrees
+# (skipped when there is only one).
 wkt() {
-    local root dirs
+    local root dirs folder trees pick
     root=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) \
         && root="${root%/.git}" || root="$PWD"
     dirs=$(find "$root" -mindepth 2 -maxdepth 2 -type d -name worktrees -not -path "$root/.git/*" \
         | sed "s#^$root/##" | sort)
     case $(printf '%s' "$dirs" | grep -c .) in
         0) echo "wkt: no worktrees folder in $root" >&2; return 1 ;;
-        1) cd "$root/$dirs" ;;
-        *) local pick; pick=$(printf '%s\n' "$dirs" | fzf --prompt="worktrees> ") || return 1
-           cd "$root/$pick" ;;
+        1) folder="$dirs" ;;
+        *) folder=$(printf '%s\n' "$dirs" | fzf --prompt="worktrees folder> ") || return 1 ;;
     esac
+    trees=$(find "$root/$folder" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+    [[ -n "$trees" ]] || { echo "wkt: no worktrees in $root/$folder" >&2; return 1; }
+    pick=$(printf '%s\n' "$trees" | fzf --select-1 --prompt="$folder> ") || return 1
+    cd "$root/$folder/$pick"
 }
 
 # Open a repo in the browser. No arg = current repo; pass a folder name (looked
