@@ -73,4 +73,8 @@ Postman/
 
 # Agentic workflows
 .ml_training_agent/
+.antigravitycli/
+
+# Vim
+.vim/
 
