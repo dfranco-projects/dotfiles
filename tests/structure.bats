@@ -129,3 +129,17 @@ is_exempt() {
         <(grep -oE '^[a-z][a-z-]*:' "$mk" | tr -d ':' | sort -u)
     [ "$status" -eq 0 ] || { echo "$output"; false; }
 }
+
+@test "every shareable claude skill is linked into .agents/skills" {
+    # Gemini CLI and Codex read ~/.agents/skills. siri is macOS + Claude only.
+    local missing=() name
+    for d in "$DOTFILES_REPO_DIR"/stow/.claude/skills/*/; do
+        name="$(basename "$d")"
+        [[ "$name" == "siri" ]] && continue
+        [[ -f "$DOTFILES_REPO_DIR/stow/.agents/skills/$name/SKILL.md" ]] || missing+=("$name")
+    done
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        echo "not linked in stow/.agents/skills: ${missing[*]}"
+        false
+    fi
+}
