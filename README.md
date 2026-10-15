@@ -44,11 +44,19 @@ make install-macos-defaults  # macOS System Settings tweaks
 make install-voice-control   # Hands-free Claude voice pipeline
 ```
 
+### Tests
+
+```bash
+make test                    # Run the bats suite in tests/ (needs bats-core)
+```
+
+GitHub Actions runs the same suite on every push and pull request.
+
 ### Examples
 
 ```bash
 # Install Arc browser
-make install-browser BROWSER=Arc
+make install-browser BROWSER=arc
 
 # Install WezTerm with blurred theme
 make install-terminal THEME=blurred
@@ -61,26 +69,30 @@ make install-init install-dev install-terminal install-dotfiles
 
 ### Dotfiles Management
 
-This repo uses **GNU `stow`** for managing dotfiles. Everything under `stow/` mirrors `$HOME` — shell configs (`.zshrc`, `.p10k.zsh`), `.config/` (wezterm, raycast), `.claude/` (Claude Code settings, hooks, skills), `.local/bin/` helper scripts, and `Library/Application Support/` app configs.
+This repo uses **GNU `stow`** for managing dotfiles. Everything under `stow/` mirrors `$HOME` — shell configs (`.zshrc`, `.p10k.zsh`), `.config/` (wezterm, raycast), `.claude/` (Claude Code settings, hooks, skills), `.agents/skills` (the same skills shared with Gemini and Codex), `.gemini/antigravity-cli` (Antigravity CLI config), `.local/bin/` helper scripts, and `Library/Application Support/` app configs.
 
 When you run `make install-dotfiles`, stow creates symlinks from `stow/` into your home directory, so all configs stay in version control.
 
 ### Core Stack (Always Installed)
 - Homebrew (package management)
-- Git, curl, wget
-- Essential CLI tools: bat, ripgrep, fd, fzf, eza, direnv, jq, tree, stow
+- Git, curl, wget, make, zsh
+- Essential CLI tools: bat, glow, ripgrep, fd, fzf, eza, direnv, jq, tree, stow, duti
+- Bitwarden CLI, ical-buddy
 
 ### Dev Stack
 - Python, pyenv, poetry, uv
 - Node.js
 - Docker, Docker CLI
-- tmux
+- tmux, htop
+- gh, glab
+- pyright, bats-core
 - Visual Studio Code
-- WezTerm (terminal)
+- WezTerm (terminal) with Meslo Nerd Font
+- Claude Code
 
 ### AI tooling
 - [CodeGraph](https://github.com/colbymchenry/codegraph) — local, pre-indexed code knowledge graph wired into Claude Code over MCP. Cuts the grep/glob/Read fan-out on large repos (fewer tool calls, fewer tokens; 100% local). Installed on the fly via the official self-contained installer — no Node required. Per-repo indexing is left manual: `cd your-project && codegraph init`.
-- Hands-free Claude — a Siri-style pipeline built on macOS Voice Control + Shortcuts: say a wake phrase to start dictating to Claude Code in the focused WezTerm pane (spawning a session there if needed), say "over and out" to send. Ships with a `siri` skill so Claude can set real Clock-app timers/alarms, create reminders and notes, control media, toggle system settings, open System Settings panes, and drive WezTerm panes/tabs. `make install-voice-control` automates the brews, shortcut import, and Claude Code config; enabling Voice Control itself is a guided one-time GUI step (macOS won't let it be scripted).
+- Hands-free Claude — a Siri-style pipeline built on macOS Voice Control + Shortcuts: say a wake phrase to start dictating to Claude Code in the focused WezTerm pane (spawning a session there if needed), say "over and out" to send. Ships with a `siri` skill so Claude can set real Clock-app timers/alarms, create reminders and notes, control media, toggle system settings, open System Settings panes, and drive WezTerm panes/tabs. `make install-voice-control` automates the brews, shortcut import, and Claude Code config; enabling Voice Control itself is a guided one-time GUI step (macOS won't let it be scripted). Also installs blueutil and brightness for the Bluetooth and brightness toggles.
 
 ### macOS plugins
 - Rectangle (window management)
