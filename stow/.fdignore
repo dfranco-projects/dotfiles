@@ -1,6 +1,6 @@
 # Home directories
 Documents/
-Downloads/
+Downloads/*
 Library/
 Movies/
 Music/
@@ -27,6 +27,7 @@ __pycache__/
 google-cloud-sdk/
 .codegraph/
 .homebrew/
+.bundle/
 Postman/
 .azure/
 .docker/

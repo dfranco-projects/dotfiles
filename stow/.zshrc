@@ -158,7 +158,7 @@ export FZF_CTRL_T_OPTS="
     --header 'Press CTRL-\ to change preview window'
 "
 
-export FZF_ALT_C_COMMAND="fd -t d --hidden --follow --exclude .git . ~"
+export FZF_ALT_C_COMMAND="fd -t d --max-depth 2 --hidden --follow --exclude .git . ~"
 export FZF_ALT_C_OPTS="
     --walker-skip .git,node_modules,target
     --preview 'tree -C {}'
