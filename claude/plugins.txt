@@ -4,4 +4,3 @@ context7@claude-plugins-official
 pyright-lsp@claude-plugins-official
 playwright@claude-plugins-official
 frontend-design@claude-plugins-official
-mattpocock-skills@claude-plugins-official
