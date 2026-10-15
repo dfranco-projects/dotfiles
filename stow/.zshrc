@@ -75,6 +75,23 @@ alias gwa="git worktree add"
 alias gwr="git worktree remove"
 alias gwp="git worktree prune"
 
+# cd into the repo's agent worktrees folder (.claude/worktrees, .antigravity/
+# worktrees, ...). Searches the main repo root, so it works from inside a
+# worktree too; outside a repo it searches $PWD. Several found = fzf menu.
+wkt() {
+    local root dirs
+    root=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) \
+        && root="${root%/.git}" || root="$PWD"
+    dirs=$(find "$root" -mindepth 2 -maxdepth 2 -type d -name worktrees -not -path "$root/.git/*" \
+        | sed "s#^$root/##" | sort)
+    case $(printf '%s' "$dirs" | grep -c .) in
+        0) echo "wkt: no worktrees folder in $root" >&2; return 1 ;;
+        1) cd "$root/$dirs" ;;
+        *) local pick; pick=$(printf '%s\n' "$dirs" | fzf --prompt="worktrees> ") || return 1
+           cd "$root/$pick" ;;
+    esac
+}
+
 # Open a repo in the browser. No arg = current repo; pass a folder name (looked
 # up under $DEV_ROOT, default ~/dev) or a path, e.g. `gho my-repo`. Resolved from
 # the repo's own git remote, so the folder name need not match the slug.
