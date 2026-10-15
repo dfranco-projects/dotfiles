@@ -1,6 +1,6 @@
 # AGENT.md
 
-This file provides guidance to Antigravity (Google DeepMind's coding assistant) when working with code in this repository.
+This file provides guidance to coding agents (Claude Code, Antigravity, Codex) when working with code in this repository.
 
 ## What this repo is
 
@@ -42,8 +42,10 @@ This history-driven uninstall is the reason every install target ends with a `lo
 
 ### Stow layout
 - All dotfiles live under `stow/` and the entire directory is a single stow package named `stow`.
+- Before stowing, `install/dotfiles.sh` moves any real file that would conflict to `<file>.old`. It skips targets that already resolve into the repo (folded stow symlinks).
 - `install/dotfiles.sh` runs `stow --adopt -t ~ -d . stow` from `DOTFILES_DIR`, so `stow/.config/foo` becomes `~/.config/foo` and `stow/Library/Application Support/...` becomes `~/Library/Application Support/...`.
-- `.stowignore` filters out `.DS_Store`, VCS files, build artifacts, etc.
+- `stow/.stow-local-ignore` filters out `.DS_Store`, VCS files, build artifacts, etc. It also excludes `.claude/settings.json`, because Claude Code rewrites that file at runtime. Edits to `stow/.claude/settings.json` never reach `~/.claude/settings.json`; copy changes over by hand.
+- `stow/.agents/skills/` holds relative symlinks into `stow/.claude/skills/`, so Gemini and Codex read the same skills from `~/.agents/skills`. Add a symlink there when you add a skill that should be shared.
 
 ### Brewfile split
 - `Brewfile.base` — always installed; CLI essentials (git, ripgrep, fd, fzf, eza, stow, …) plus the zsh prompt and plugins `.zshrc` sources
@@ -56,7 +58,7 @@ This history-driven uninstall is the reason every install target ends with a `lo
 `install/terminal.sh` does not symlink themes — it **copies** `stow/.config/wezterm/themes/<THEME>/wezterm.lua` over `stow/.config/wezterm/wezterm.lua` (and theme assets into `stow/.config/wezterm/assets/`). Switching themes mutates files that are tracked in git; expect a diff after running it.
 
 ### Voice pipeline (hands-free Claude)
-Say a wake phrase → macOS Voice Control runs the `claude-listen` Shortcut → it executes `~/.local/bin/claude-voice-listen` (stowed from `stow/.local/bin/`), which finds the focused WezTerm pane via `wezterm cli list-clients`/`list`, detects a Claude Code session by checking the pane's tty (`ps -t <tty>`), starts one in-place if absent, then taps `ctrl+y` (`voice:pushToTalk`, bound in `stow/.claude/keybindings.json`; tap mode set in `stow/.claude/settings.json`). Saying "over and out" has Voice Control press `ctrl+y` again — stop and auto-send.
+Say a wake phrase → macOS Voice Control runs the `claude-listen` Shortcut → it executes `~/.local/bin/claude-voice-listen` (stowed from `stow/.local/bin/`), which finds the focused WezTerm pane via `wezterm cli list-clients`/`list`, detects a Claude Code session by checking the pane's tty (`ps -t <tty>`), starts one in-place if absent, then taps `ctrl+y` (`voice:pushToTalk`, bound in `stow/.claude/keybindings.json`; tap mode set in `stow/.claude/settings.json`, which is not stowed, see Stow layout). Saying "over and out" has Voice Control press `ctrl+y` again — stop and auto-send.
 
 `shortcuts/` holds unsigned workflow plists (`claude-timer`, `claude-alarm`, `claude-dnd-on/off`, `claude-listen`) consumed by `install/voice-control.sh`, which signs each locally (`shortcuts sign -m anyone`) and `open`s it — one "Add Shortcut" click per shortcut. macOS has no CLI to create or export shortcuts; refreshing a file means Share > Copy iCloud Link on the shortcut, then downloading the `downloadURL` from `https://www.icloud.com/shortcuts/api/records/<id>`. Enabling Voice Control and its two custom commands is GUI-only by design — the install script opens the right Settings pane and prints the checklist. The `siri` device-control skill lives at `stow/.claude/skills/siri/SKILL.md` and reaches `~/.claude/skills/` via stow.
 
