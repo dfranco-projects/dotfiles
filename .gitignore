@@ -39,3 +39,4 @@ stow/.config/gcloud/
 stow/.config/anthropic/
 stow/.config/raycast/aster-endpoint.json
 stow/.config/raycast/node-compile-cache/
+stow/.config/raycast/extensions/*/node_modules/
