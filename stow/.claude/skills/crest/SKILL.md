@@ -35,5 +35,5 @@ Done when every behaviour under test has a pass or fail backed by snapshot text,
 - Reachable: `http` and `https` pages (localhost included) in allowed Spaces. Crest's own pages, private windows, and other Spaces stay out of reach.
 - `evaluate_script` works only while the user has "Let agents run scripts in pages" turned on. Use it to read state the snapshot does not show; drive the page with snapshot actions.
 - A site set to the WebKit engine receives input as script events and reports network entries without status. Ask the user to switch that site to Chromium when a test depends on either.
-- Stable 0.8.50 exposes 20 tools. The Crest help docs also describe `read_page_text`, `search_history`, and `open_quick_window`, which ship only in nightly builds.
+- Tool count depends on the build: stable 0.8.50 has 20, development 0.8.97 has 29, adding `read_page_text`, `handle_dialog`, `search_history`, `delete_history`, `list_search_providers` and the window openers. Use `read_page_text` to read an article as Markdown when the snapshot tree is too noisy.
 - If the user presses Stop on a tab, tools fail for that tab. Report it and continue with other tabs.
