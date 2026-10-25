@@ -1,0 +1,2 @@
+# Crest browser (the cask named "crest" is an unrelated notch app)
+cask "crest-browser"

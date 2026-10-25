@@ -1,7 +1,7 @@
 .PHONY: help install install-init install-dev install-mac-plugins install-browser install-terminal install-vscode install-dotfiles install-claude-hooks install-codegraph install-i-have-adhd install-claude-plugins install-macos-defaults install-voice-control terminal wezterm uninstall history clean-history theme-list test
 
 # Variables
-BROWSER ?= arc
+BROWSER ?= crest
 THEME ?= kanagawa-dragon-gogh
 CODEGRAPH_TARGET ?= claude
 DOTFILES_DIR ?= $(shell pwd)
@@ -15,7 +15,7 @@ help:
 	@echo "  make install-dev          - Install development stack"
 	@echo "  make install-mac-plugins  - Install macOS UI enhancements"
 	@echo "  make install-macos-defaults - Apply macOS System Settings tweaks (defaults write)"
-	@echo "  make install-browser      - Install browser(s) (default: arc)"
+	@echo "  make install-browser      - Install browser (default: crest)"
 	@echo "  make install-terminal     - Configure WezTerm theme (default: kanagawa-dragon-gogh)"
 	@echo "  make install-vscode       - Install VS Code extensions"
 	@echo "  make install-dotfiles     - Apply dotfiles with stow"
@@ -34,7 +34,7 @@ help:
 	@echo "Examples:"
 	@echo "  make install                               	# Full setup"
 	@echo "  make install-dev                           	# Dev stack only"
-	@echo "  make install-browser BROWSER=arc       		# Install Arc browser"
+	@echo "  make install-browser BROWSER=zen       		# Install Zen browser"
 	@echo "  make install-terminal THEME=dracula 			# Install WezTerm with specific theme"
 	@echo "  make terminal THEME=dracula 					# Change WezTerm theme only"
 	@echo "  make uninstall                             	# Uninstall all (reverse order)"

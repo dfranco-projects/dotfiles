@@ -4,11 +4,18 @@
 set -e
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_base.sh"
 
-BROWSER="${1:-zen}"
+BROWSER="${1:-crest}"
 
 log "Uninstalling browser: $BROWSER"
 
 case "$BROWSER" in
+    crest)
+        if command -v claude >/dev/null 2>&1 && claude mcp get crest >/dev/null 2>&1; then
+            claude mcp remove crest -s user
+            success "Removed Crest MCP server from Claude Code"
+        fi
+        uninstall_brewfile "$DOTFILES_DIR/brews/Brewfile.browser-crest" "Crest browser"
+        ;;
     zen)
         log "Uninstalling Zen"
         if brew list zen &>/dev/null; then
