@@ -18,7 +18,7 @@ There is no build or lint config. `make test` runs a small bats suite (`tests/`)
 make help                       # List all targets
 make install                    # Full install (every install-<component> target)
 make install-<component>        # See Makefile for the full list
-make install-browser BROWSER=arc|zen
+make install-browser BROWSER=crest|zen
 make install-terminal THEME=<name>   # Themes live in stow/.config/wezterm/themes/
 make theme-list                 # List available WezTerm themes
 make install-voice-control      # Hands-free Claude voice pipeline (brews + shortcut import + guided Voice Control)
@@ -51,7 +51,7 @@ This history-driven uninstall is the reason every install target ends with a `lo
 - `Brewfile.base` — always installed; CLI essentials (git, ripgrep, fd, fzf, eza, stow, …) plus the zsh prompt and plugins `.zshrc` sources
 - `Brewfile.dev` — language toolchains, Docker, tmux, IDEs
 - `Brewfile.mac-plugins` — UI apps (Rectangle, Stats, Raycast, …)
-- `Brewfile.browser` — used only for `BROWSER=zen` (the `arc` path calls `brew install arc` directly in `install/browser.sh`)
+- `Brewfile.browser-crest`, `Brewfile.browser-zen` — one per `BROWSER` value, so installing one browser never pulls in another
 - `Brewfile.voice-control` — CLI tools the `siri` skill's system toggles need (blueutil, brightness)
 
 ### WezTerm theme switching
@@ -62,8 +62,8 @@ Say a wake phrase → macOS Voice Control runs the `claude-listen` Shortcut → 
 
 `shortcuts/` holds unsigned workflow plists (`claude-timer`, `claude-alarm`, `claude-dnd-on/off`, `claude-listen`) consumed by `install/voice-control.sh`, which signs each locally (`shortcuts sign -m anyone`) and `open`s it — one "Add Shortcut" click per shortcut. macOS has no CLI to create or export shortcuts; refreshing a file means Share > Copy iCloud Link on the shortcut, then downloading the `downloadURL` from `https://www.icloud.com/shortcuts/api/records/<id>`. Enabling Voice Control and its two custom commands is GUI-only by design — the install script opens the right Settings pane and prints the checklist. The `siri` device-control skill lives at `stow/.claude/skills/siri/SKILL.md` and reaches `~/.claude/skills/` via stow.
 
-### Browser status (Arc sunset)
-Arc stops working on December 22, 2026: the app will not open after that date. `make install-browser` still defaults to `arc` and needs a new default before then. Crest (cask `crest-browser`, source at [pauljoda/Crest](https://github.com/pauljoda/Crest)) is the preferred replacement and is installed by hand while under evaluation. Zen is the fallback. The cask named `crest` is an unrelated notch app.
+### Browser (Crest)
+Arc stops working on December 22, 2026, so `make install-browser` no longer installs it; `uninstall/browser.sh` keeps an `arc` branch so older history entries still reverse. Crest (cask `crest-browser`, source at [pauljoda/Crest](https://github.com/pauljoda/Crest)) is the default, and Zen is the fallback. The cask named `crest` is an unrelated notch app. `BROWSER=crest` also registers Crest's MCP server with Claude Code at user scope (the `crest` skill covers using it); turning on agents in Crest's Settings stays a manual step.
 
 Crest is a single-maintainer project at v0.8. Whenever a task touches the browser component or the user asks about Crest, run this health check and report the result:
 - Latest stable release: `gh api repos/pauljoda/Crest/releases/latest -q '.tag_name + " " + .published_at'`

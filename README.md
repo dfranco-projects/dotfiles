@@ -32,7 +32,7 @@ Or install only what you need:
 make install-init            # Core system checks and base packages
 make install-dev             # Development stack
 make install-mac-plugins     # macOS UI plugins
-make install-browser         # Browser (default: arc)
+make install-browser         # Browser (default: crest)
 make install-terminal        # WezTerm with theme
 make install-vscode          # VS Code extensions
 make install-dotfiles        # Apply shell configs
@@ -55,8 +55,8 @@ GitHub Actions runs the same suite on every push and pull request.
 ### Examples
 
 ```bash
-# Install Arc browser
-make install-browser BROWSER=arc
+# Install Zen browser
+make install-browser BROWSER=zen
 
 # Install WezTerm with blurred theme
 make install-terminal THEME=blurred
@@ -102,7 +102,7 @@ When you run `make install-dotfiles`, stow creates symlinks from `stow/` into yo
 - Obsidian (notes)
 
 ### Browsers
-- Arc (default)
+- Crest (default, with its MCP server registered in Claude Code)
 - Zen
 
 ### Shell

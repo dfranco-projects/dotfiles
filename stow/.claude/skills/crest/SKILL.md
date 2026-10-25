@@ -12,7 +12,7 @@ Crest is the user's browser. Its built-in MCP server lets you open tabs, read pa
 Run this only when no `mcp__crest__*` tools are loaded.
 
 1. Crest is installed (`brew install --cask crest-browser`; the `crest` cask is an unrelated app) and running. Start it without stealing focus: `open -g --env CREST_BACKGROUND_LAUNCH=1 -a Crest`.
-2. The server is registered once per machine: `claude mcp add --scope user --transport stdio crest -- "/Applications/Crest.app/Contents/Helpers/crest-browser" mcp`. The tools load in the next session, so ask the user to restart Claude Code.
+2. The server is registered once per machine. `make install-browser` in the dotfiles repo does it, or run `claude mcp add --scope user --transport stdio crest -- "/Applications/Crest.app/Contents/Helpers/crest-browser" mcp`. The tools load in the next session, so ask the user to restart Claude Code.
 3. The user turns on Settings > Agents > Allow agents to use Crest, and enables the `Agent` Space there. Only the user can do this step.
 
 ## Testing a local web app
