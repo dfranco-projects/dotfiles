@@ -62,6 +62,14 @@ Say a wake phrase → macOS Voice Control runs the `claude-listen` Shortcut → 
 
 `shortcuts/` holds unsigned workflow plists (`claude-timer`, `claude-alarm`, `claude-dnd-on/off`, `claude-listen`) consumed by `install/voice-control.sh`, which signs each locally (`shortcuts sign -m anyone`) and `open`s it — one "Add Shortcut" click per shortcut. macOS has no CLI to create or export shortcuts; refreshing a file means Share > Copy iCloud Link on the shortcut, then downloading the `downloadURL` from `https://www.icloud.com/shortcuts/api/records/<id>`. Enabling Voice Control and its two custom commands is GUI-only by design — the install script opens the right Settings pane and prints the checklist. The `siri` device-control skill lives at `stow/.claude/skills/siri/SKILL.md` and reaches `~/.claude/skills/` via stow.
 
+### Browser status (Arc sunset)
+Arc stops working on December 22, 2026: the app will not open after that date. `make install-browser` still defaults to `arc` and needs a new default before then. Crest (cask `crest-browser`, source at [pauljoda/Crest](https://github.com/pauljoda/Crest)) is the preferred replacement and is installed by hand while under evaluation. Zen is the fallback. The cask named `crest` is an unrelated notch app.
+
+Crest is a single-maintainer project at v0.8. Whenever a task touches the browser component or the user asks about Crest, run this health check and report the result:
+- Latest stable release: `gh api repos/pauljoda/Crest/releases/latest -q '.tag_name + " " + .published_at'`
+- Bundled engine: `defaults read "/Applications/Crest.app/Contents/Frameworks/Chromium Framework.framework/Resources/Info.plist" CFBundleShortVersionString`, compared against current Chrome stable on chromereleases.googleblog.com. A gap of more than a few weeks means security fixes are lagging.
+- Maintainer activity: last push date and published security advisories on the repo.
+
 ## Conventions for adding a new component
 
 To add `make install-foo` cleanly:

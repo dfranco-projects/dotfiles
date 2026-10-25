@@ -41,7 +41,7 @@ Transform tasks into verifiable goals. For multi-step tasks, state a brief plan:
 
 ### Testing
 - Write unit tests for new features and non-trivial logic. Run them before reporting work done.
-- Verify before saying done: run the test or command and cite its output. For UI changes, open the page with Playwright and check a screenshot. If you could not verify, say so.
+- Verify before saying done: run the test or command and cite its output. For UI changes, open the page in Crest (`crest` skill) and check a screenshot; use Playwright when Crest is unavailable. If you could not verify, say so.
 - E2E tests only when necessary — auth flows, critical user paths, anything crossing process boundaries.
 - Don't test trivial code (one-line wrappers, plain getters).
 - Match the project's existing test framework and conventions. Don't introduce a new runner.
