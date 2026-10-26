@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "downloads-manager",
+  "description": "Search and organize your downloads",
+  "author": {
+    "name": "thomas"
+  },
+  "license": "MIT"
+}

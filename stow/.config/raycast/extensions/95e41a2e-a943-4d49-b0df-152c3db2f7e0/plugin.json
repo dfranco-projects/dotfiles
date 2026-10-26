@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "visual-studio-code",
+  "description": "Control VS Code and compatible editors directly from Raycast",
+  "author": {
+    "name": "thomas"
+  },
+  "license": "MIT",
+  "keywords": [
+    "vscode",
+    "antigravity",
+    "bob",
+    "cursor",
+    "codium",
+    "kiro",
+    "positron",
+    "devin",
+    "windsurf",
+    "trae",
+    "trae-cn",
+    "lingma"
+  ]
+}

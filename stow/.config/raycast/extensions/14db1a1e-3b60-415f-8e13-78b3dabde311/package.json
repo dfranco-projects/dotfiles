@@ -215,6 +215,9 @@
       "name": "get-latest-download",
       "title": "Get Latest Download",
       "description": "Gets the last download from the configured Downloads folder",
+      "output": {
+        "type": "string"
+      },
       "confirmation": false
     },
     {
@@ -232,6 +235,9 @@
         "required": [
           "latestDownloadPath"
         ]
+      },
+      "output": {
+        "type": "string"
       },
       "confirmation": false
     },
@@ -251,6 +257,9 @@
           "latestDownloadPath"
         ]
       },
+      "output": {
+        "type": "string"
+      },
       "confirmation": true
     },
     {
@@ -268,6 +277,9 @@
         "required": [
           "latestDownloadPath"
         ]
+      },
+      "output": {
+        "type": "string"
       },
       "confirmation": false
     },
@@ -287,6 +299,9 @@
           "latestDownloadPath"
         ]
       },
+      "output": {
+        "type": "string"
+      },
       "confirmation": false
     },
     {
@@ -304,6 +319,9 @@
         "required": [
           "latestDownloadPath"
         ]
+      },
+      "output": {
+        "type": "string"
       },
       "confirmation": false
     }

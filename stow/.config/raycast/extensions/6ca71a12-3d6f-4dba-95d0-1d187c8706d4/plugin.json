@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "google-search",
+  "description": "Google search with autosuggestions",
+  "author": {
+    "name": "mblode"
+  },
+  "license": "MIT"
+}

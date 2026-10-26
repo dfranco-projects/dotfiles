@@ -1,0 +1,491 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "port-manager",
+  "title": "Port Manager",
+  "description": "Find open ports and close them",
+  "categories": [
+    "Developer Tools",
+    "Productivity",
+    "System"
+  ],
+  "icon": "command-icon.png",
+  "author": "lucaschultz",
+  "contributors": [
+    "Sheraff",
+    "ridemountainpig",
+    "pernielsentikaer",
+    "0xdhrv",
+    "MaaxGr",
+    "tony.nguyen",
+    "alexi.build"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "kill-listening-process",
+      "title": "Kill Process Listening on",
+      "description": "Kill the process listening on a given port",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "port",
+          "placeholder": "Port",
+          "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "named-ports",
+      "title": "Named Ports",
+      "description": "Name ports to make them easier to find in the open port list",
+      "mode": "view"
+    },
+    {
+      "name": "open-ports",
+      "title": "Open Ports",
+      "description": "Show and Close Opened Ports",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "primaryPortAction",
+          "type": "dropdown",
+          "default": "kill",
+          "required": false,
+          "data": [
+            {
+              "title": "Kill",
+              "value": "kill"
+            },
+            {
+              "title": "Kill All",
+              "value": "killAll"
+            },
+            {
+              "title": "Kill Parent",
+              "value": "killParent"
+            },
+            {
+              "title": "Show Details",
+              "value": "showDetails"
+            },
+            {
+              "title": "Show in Finder",
+              "value": "showInFinder"
+            },
+            {
+              "title": "Copy Info",
+              "value": "copyInfo"
+            },
+            {
+              "title": "Copy Commands",
+              "value": "copyCommands"
+            },
+            {
+              "title": "Reload",
+              "value": "reload"
+            }
+          ],
+          "title": "Primary Port Action",
+          "description": "Choose which action to perform when selecting an port."
+        }
+      ]
+    },
+    {
+      "name": "open-ports-menu-bar",
+      "title": "Open Ports in Menu Bar",
+      "description": "List open ports in menu bar",
+      "mode": "menu-bar",
+      "icon": "command-icon.png",
+      "interval": "1m"
+    }
+  ],
+  "tools": [
+    {
+      "name": "kill-process-on-port",
+      "title": "Kill Process on Port",
+      "description": "Kill the process listening on a TCP port and verify that it exits",
+      "instructions": "Kill the process listening on a TCP port after the user confirms the action.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "port": {
+            "type": "number",
+            "description": "The TCP port number, from 1 to 65535."
+          }
+        },
+        "required": [
+          "port"
+        ]
+      },
+      "confirmation": true
+    },
+    {
+      "name": "list-open-ports",
+      "title": "List Open Ports",
+      "description": "List TCP listeners with their ports, addresses, exposure, process details, and named port labels",
+      "instructions": "List the current TCP listeners, including the details shown by Open Ports and the menu bar.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "port": {
+            "type": "number",
+            "description": "Return only listeners on this TCP port. Omit to list every open port."
+          },
+          "exposure": {
+            "type": "string",
+            "description": "Return only listeners with this network exposure.",
+            "enum": [
+              "loopback",
+              "all-interfaces",
+              "specific"
+            ]
+          }
+        },
+        "required": []
+      },
+      "confirmation": false
+    },
+    {
+      "name": "kill-open-port-process",
+      "title": "Kill Open Port Process",
+      "description": "Kill a listed TCP listener by its PID, all processes with its name, or its parent; always pass the listener's PID",
+      "instructions": "Perform a kill action from Open Ports for a PID returned by list-open-ports.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "pid": {
+            "type": "number",
+            "description": "PID of the listening process from list-open-ports. For target \"parent\", pass the child's PID, not its parentPid."
+          },
+          "target": {
+            "type": "string",
+            "description": "Kill this process, every process with its name, or its parent.",
+            "enum": [
+              "process",
+              "all",
+              "parent"
+            ]
+          },
+          "signal": {
+            "type": "string",
+            "description": "Use the configured kill signal by default, with SIGTERM for \"ask\", or override it when requested. Windows always uses taskkill.",
+            "enum": [
+              "term",
+              "kill"
+            ]
+          }
+        },
+        "required": [
+          "pid",
+          "target"
+        ]
+      },
+      "confirmation": true
+    },
+    {
+      "name": "list-named-ports",
+      "title": "List Named Ports",
+      "description": "List saved names for TCP ports",
+      "instructions": "List every saved port name from the Named Ports command.",
+      "confirmation": false
+    },
+    {
+      "name": "create-named-port",
+      "title": "Create Named Port",
+      "description": "Save a name for a TCP port that does not have one yet",
+      "instructions": "Create a named port without replacing an existing saved name.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "port": {
+            "type": "number",
+            "description": "The TCP port to name, from 0 to 65535."
+          },
+          "name": {
+            "type": "string",
+            "description": "A nonempty name such as Next.js."
+          }
+        },
+        "required": [
+          "port",
+          "name"
+        ]
+      },
+      "output": {
+        "type": "string"
+      },
+      "confirmation": false
+    },
+    {
+      "name": "update-named-port",
+      "title": "Update Named Port",
+      "description": "Change the saved name of an existing named TCP port",
+      "instructions": "Update the name of a port that is already saved in Named Ports.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "port": {
+            "type": "number",
+            "description": "The TCP port whose saved name should change."
+          },
+          "name": {
+            "type": "string",
+            "description": "The new nonempty name."
+          }
+        },
+        "required": [
+          "port",
+          "name"
+        ]
+      },
+      "output": {
+        "type": "string"
+      },
+      "confirmation": false
+    },
+    {
+      "name": "delete-named-port",
+      "title": "Delete Named Port",
+      "description": "Remove a saved TCP port name",
+      "instructions": "Delete a saved port name without killing its process.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "port": {
+            "type": "number",
+            "description": "The TCP port whose saved name should be removed."
+          }
+        },
+        "required": [
+          "port"
+        ]
+      },
+      "output": {
+        "type": "string"
+      },
+      "confirmation": true
+    }
+  ],
+  "preferences": [
+    {
+      "name": "killSignal",
+      "description": "The signal used to kill the process on macOS. Windows always terminates with taskkill.",
+      "type": "dropdown",
+      "required": false,
+      "default": "ask",
+      "title": "Kill Signal",
+      "data": [
+        {
+          "title": "Ask before each kill",
+          "value": "ask"
+        },
+        {
+          "title": "Always use SIGTERM",
+          "value": "15"
+        },
+        {
+          "title": "Always use SIGKILL",
+          "value": "9"
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.104.24",
+    "@raycast/utils": "^2.3.0",
+    "nanoid": "^6.0.1"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "^26.2.0",
+    "@vitest/coverage-v8": "^5.0.3",
+    "eslint": "^10.8.1",
+    "prettier": "^3.9.6",
+    "typescript": "^5.8.3",
+    "vitest": "^5.0.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.test.json"
+  },
+  "platforms": [
+    "macOS",
+    "Windows"
+  ],
+  "ai": {
+    "instructions": "Use list-open-ports to identify a listening process before killing by name or parent.\nPass that listening process's PID to kill-open-port-process, even when killing its parent.\nUse kill-process-on-port for a direct request to kill a listener on a known port.\nReport the tool's result accurately, including when a process survives a kill signal.\n",
+    "evals": [
+      {
+        "input": "@port-manager I want to be able to kill a service on port 3000",
+        "mocks": {
+          "list-open-ports": "[{\"pid\":1234,\"name\":\"node\",\"ports\":[{\"port\":3000,\"host\":\"127.0.0.1\",\"exposure\":\"loopback\"}]}]",
+          "kill-process-on-port": "Killed process 1234 listening on port 3000."
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "kill-process-on-port",
+              "arguments": {
+                "port": 3000
+              }
+            }
+          },
+          {
+            "includes": "3000"
+          }
+        ]
+      },
+      {
+        "input": "@port-manager What services are listening on TCP ports?",
+        "mocks": {
+          "list-open-ports": "[{\"pid\":1234,\"name\":\"node\",\"ports\":[{\"port\":3000,\"host\":\"127.0.0.1\",\"exposure\":\"loopback\"}]}]"
+        },
+        "expected": [
+          {
+            "callsTool": "list-open-ports"
+          },
+          {
+            "includes": "3000"
+          }
+        ]
+      },
+      {
+        "input": "@port-manager Show my named ports",
+        "mocks": {
+          "list-named-ports": "[{\"port\":3000,\"name\":\"Next.js\"}]"
+        },
+        "expected": [
+          {
+            "callsTool": "list-named-ports"
+          },
+          {
+            "includes": "Next.js"
+          }
+        ]
+      },
+      {
+        "input": "@port-manager Name port 3000 Next.js",
+        "mocks": {
+          "create-named-port": "Named port 3000 as \"Next.js\"."
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "create-named-port",
+              "arguments": {
+                "port": 3000,
+                "name": "Next.js"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "@port-manager Rename port 3000 to Development Server",
+        "mocks": {
+          "list-open-ports": "[{\"pid\":1234,\"name\":\"node\",\"ports\":[{\"port\":3000,\"host\":\"127.0.0.1\",\"exposure\":\"loopback\"}]}]",
+          "list-named-ports": "[{\"port\":3000,\"name\":\"Next.js\"}]",
+          "update-named-port": "Updated port 3000 as \"Development Server\"."
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "update-named-port",
+              "arguments": {
+                "port": 3000,
+                "name": "Development Server"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "@port-manager Delete the saved name for port 3000",
+        "mocks": {
+          "delete-named-port": "Removed the saved name for port 3000."
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "delete-named-port",
+              "arguments": {
+                "port": 3000
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "@port-manager Kill all processes with the same name as the service on port 3000",
+        "mocks": {
+          "list-open-ports": "[{\"pid\":1234,\"name\":\"node\",\"ports\":[{\"port\":3000,\"host\":\"127.0.0.1\",\"exposure\":\"loopback\"}]}]",
+          "kill-open-port-process": "Killed processes 1234, 1235 named \"node\"."
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "kill-open-port-process",
+              "arguments": {
+                "pid": 1234,
+                "target": "all"
+              }
+            }
+          }
+        ],
+        "usedAsExample": false
+      },
+      {
+        "input": "@port-manager Kill all processes with the same name as the service on port 3000 and tell me if any are still running",
+        "mocks": {
+          "list-open-ports": "[{\"pid\":1234,\"name\":\"node\",\"ports\":[{\"port\":3000,\"host\":\"127.0.0.1\",\"exposure\":\"loopback\"}]}]",
+          "kill-open-port-process": "Sent a termination request to all processes named \"node\", but process 1235 is still running."
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "kill-open-port-process",
+              "arguments": {
+                "pid": 1234,
+                "target": "all"
+              }
+            }
+          },
+          {
+            "includes": "1235"
+          },
+          {
+            "includes": "still running"
+          }
+        ],
+        "usedAsExample": false
+      },
+      {
+        "input": "@port-manager Kill the parent of the service listening on port 3000",
+        "mocks": {
+          "list-open-ports": "[{\"pid\":1234,\"name\":\"node\",\"parentPid\":1200,\"ports\":[{\"port\":3000,\"host\":\"127.0.0.1\",\"exposure\":\"loopback\"}]}]",
+          "kill-open-port-process": "Killed parent process 1200."
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "kill-open-port-process",
+              "arguments": {
+                "pid": 1234,
+                "target": "parent"
+              }
+            }
+          }
+        ],
+        "usedAsExample": false
+      }
+    ]
+  }
+}

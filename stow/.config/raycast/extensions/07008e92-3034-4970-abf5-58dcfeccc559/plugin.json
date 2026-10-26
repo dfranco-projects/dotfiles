@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "youtube-search",
+  "description": "YouTube search with autosuggestions",
+  "author": {
+    "name": "muhammetakay"
+  },
+  "license": "MIT"
+}
