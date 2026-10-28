@@ -11,14 +11,15 @@ Apply these rules whenever writing a reply to a code review comment.
 - **Casual and direct.** Write like a dev on slack who's read the diff. Short, pointed, no ceremony.
 - **Lowercase** throughout, including the first word. No sentence-case, no title-case. Exception: "I" is always capitalized.
 - **No trailing period.** End sentences naturally without punctuation at the end.
-- **Short.** One to three sentences max. Say what changed or why, not a summary of the reviewer's own comment back at them. Answer the question, don't teach the concept.
-- **Question form when pushing back.** Instead of "I disagree because X", write "does X actually apply here though?" or "wouldn't Y be enough?". Forces the reviewer to engage rather than creating a wall of text.
-- **Human touches.** Use words like "imo", "yeah", "nah", "fair point", "tbh", "oof", "good catch" when they fit. Don't force them into every reply.
+- **Short.** One to two sentences. Say the thing and stop. Don't summarize the reviewer's own comment back at them.
+- **One hop max.** Name what's wrong (or what to do), and at most one consequence. Never chain problem → detail → consequence → suggestion. "`get()` returns None for MCP refs, would crash in `load`" is the ceiling. No third layer.
+- **Question form when pushing back.** "wouldn't X be enough?" or "do we actually need Y here?" — not "I disagree because X".
+- **Human touches.** "imo", "yeah", "nah", "fair point", "tbh", "idk", "thx", "pls" when they fit. Don't force them into every reply.
 - **No filler.** No "great catch", "thanks for the review", "I appreciate the feedback". Jump straight to the substance.
-- **Tell the story, don't file a report.** Describe what happens from the user's or developer's perspective, like you're walking someone through it. "if you add the same tool twice it just quietly keeps one, no error or anything" beats "duplicate tools on create silently deduped with no feedback". Use connecting words (so, but, also) to build flow.
-- **Plain language first.** Describe the problem in terms of what the user or system experiences, not which method or variable is involved. Lead with the observable behavior, then reference code only if the reader needs it to locate the fix.
-- **No code in comments.** Don't use inline code, code blocks, or reference class/function/variable names. Explain in plain words so anyone reading (PO, tech lead, other devs) can follow without reading the source. The diff is right there for whoever wants the implementation details.
-- **Emojis sparingly.** An occasional emoji is fine when it adds tone ("fixed 🙏", "oof yeah that's bad"), but don't force them.
+- **No hedging.** Don't soften with "probably fine for now", "worth considering", "might be worth a follow-up". Either it matters or it doesn't. If it's a real issue say so flat; if it's not, don't comment.
+- **Use backticks freely.** Name the function, param, or class in backticks when it helps the reader locate the thing. The diff is right there — don't dance around code names with vague descriptions.
+- **Emojis sparingly.** An occasional emoji is fine when it adds tone (😅, ;), :slight_smile:), but don't force them.
+- **Label nitpicks.** If it's minor, say so: "nitpick but maybe..." — don't dress up a style preference as a bug.
 
 ## Content
 - If the comment is addressed: say what was done, briefly.
@@ -46,15 +47,15 @@ Fix first, comment second. Don't reply saying "will fix" when you can just fix i
 
 ## Formatting when drafting new review comments
 - **No markdown quotes.** Never wrap comments in `>` blockquote syntax. Output plain text so the user can copy-paste directly into the MR comment box without reformatting.
-- **Breathe.** Separate each phrase or thought onto its own line. Dense paragraphs are hard to scan in a review thread. One idea per line, blank lines between logical chunks.
+- **Dense is fine.** Two short sentences on one line reads more natural than a line-per-thought layout. Don't spread a single point across multiple lines just for whitespace.
 
 ## When reviewing (not replying)
-When the user is the reviewer drafting comments on someone else's MR, the rules shift slightly:
+When the user is the reviewer drafting comments on someone else's MR:
 
-- **Code examples are encouraged.** Show the fix when it's short and concrete. A 1-3 line snippet saves the author a round trip. Put the snippet on its own line, separated from the prose by a blank line.
-- **Keep prose behavior-oriented.** The comment is pinned to the code, so the reader already sees the implementation. Say what happens or what should happen, not which methods are involved. Lead with the observable behavior, then reference code only if the reader needs it to locate the fix. Use "here" to refer to the pinned location. Only name a specific method, param, or class when the reader genuinely needs it to locate the fix (e.g. it's in a different file, or there are multiple similar calls).
-- **Structure: problem, fix, consequence.** One or two lines explaining the issue in plain language, then a code example if helpful, then one line on what breaks without the fix. Each chunk separated by a blank line.
-- **Short overall.** Even with a code snippet the whole comment should stay under ~8 lines of prose. If you need more, the finding is probably two separate comments.
+- **Code examples are encouraged.** Show the fix when it's short and concrete. A 1-3 line snippet saves the author a round trip.
+- **Say the thing, then stop.** Name what's off and at most why it matters. No three-part structure. "no page cap on this loop, could spin forever with a bad server" is a complete comment. If you want to suggest a fix, add a snippet — don't add another paragraph explaining it.
+- **Use code names.** The comment is pinned to the code. Name the function, param, or variable directly. Don't rephrase "`get()` returns None" as "the lookup may fail to find a result".
+- **Short overall.** Under ~4 lines of prose even with a snippet. If you need more, it's probably two comments.
 
 ## Line targeting
 - **Verify line numbers against the actual diff** before presenting comments. Use the diff's `@@` hunks and count the `+` lines to determine the correct new-file line number. A comment anchored to the wrong line is confusing and undermines the review.
@@ -69,3 +70,5 @@ When the user is the reviewer drafting comments on someone else's MR, the rules 
 - Don't write long justifications. If the answer is longer than 3 sentences, you're over-explaining.
 - Don't use `>` blockquotes when drafting comments.
 - Don't use positional words like "below", "above", "right below", "just above" to reference nearby code. The comment is anchored to a line; the reader can see the context. Just name what the thing does.
+- Don't hedge. No "probably fine for now", "worth considering", "could potentially", "might want to". Say it or don't.
+- Don't explain how things work internally. "decoding doubles peak memory because the base64 string and decoded bytes both live at the same time" is a lecture. "no size guard on the decode" is a comment.
