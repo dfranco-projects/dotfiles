@@ -1,12 +1,11 @@
 {
+  "env": {
+    "CLAUDE_CODE_AUTO_CONNECT_IDE": "false"
+  },
   "permissions": {
     "allow": [
       "mcp__codegraph__*"
     ]
-  },
-  "model": "opus",
-  "env": {
-    "CLAUDE_CODE_AUTO_CONNECT_IDE": "false"
   },
   "hooks": {
     "SessionStart": [
@@ -63,8 +62,8 @@
         "hooks": [
           {
             "type": "command",
-            "if": "Bash(git commit*)",
-            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"Before writing this commit, follow the commit-messages skill (~/.claude/skills/commit-messages/SKILL.md): Conventional Commits, lowercase imperative subject, no Co-Authored-By trailer, no heredoc/EOF wrappers, default to title-only.\"}}'"
+            "command": "bash ~/.claude/hooks/commit-skill-inject.sh",
+            "if": "Bash(git commit*)"
           }
         ]
       }
@@ -118,10 +117,11 @@
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
+  "effortLevel": "high",
+  "autoUpdatesChannel": "stable",
   "voice": {
     "enabled": true,
     "mode": "tap"
   },
-  "voiceEnabled": true,
   "tui": "fullscreen"
 }

@@ -1,6 +1,6 @@
 ---
 name: commit-messages
-description: Use when authoring git commit messages or running `git commit`. Enforces Conventional Commits format and global commit conventions (lowercase, atomic).
+description: Use when authoring git commit messages or running `git commit`. Enforces Conventional Commits format and global commit conventions (lowercase, atomic, no Co-Authored-By trailer, no heredoc wrappers).
 ---
 
 # Commit Messages
