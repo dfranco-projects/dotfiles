@@ -1,0 +1,62 @@
+description = "Use when authoring git commit messages or running `git commit`. Enforces Conventional Commits format and global commit conventions."
+
+prompt = """
+Apply these rules whenever creating a git commit.
+
+## Format
+- **Conventional Commits:** `type(scope): subject` — scope is optional, see below.
+- **Lowercase** throughout — including the subject.
+- **Imperative mood** — "add", not "added"/"adds".
+- **Subject line ≤ 72 characters**, no trailing period.
+- **Minimal but informative** — focus on the *why* when the *what* isn't obvious from the diff.
+
+## Scope
+Scope is **optional**. Only include it when it narrows to a specific sub-part *within* the current work — not when the branch name already implies it.
+
+- Branch `feat/agent-x`, commit touching agent-x broadly → `feat: add retry logic` ✅ (scope implied by branch)
+- Branch `feat/agent-x`, commit touching only its tokenizer → `feat(tokenizer): handle bom prefix` ✅ (scope narrows further)
+- Branch `feat/agent-x`, commit → `feat(agent-x): ...` ❌ (redundant with branch)
+
+When in doubt, omit the scope.
+
+## Body
+**Default to title-only.** Most commits need no body. Be concise — a body is the exception, not the norm, and exists only to capture *why* when that isn't obvious from the diff.
+
+- **Small commits** (1–2 files, single concern, obvious from diff) → **title only**. No body, no bullets, no extra phrases.
+- **Medium / large commits** → add a body *only* if the rationale is non-obvious, and keep it to **1–2 short sentences**. Don't restate what the diff already shows, don't narrate the investigation, don't list every file touched.
+
+Never pad a commit with body text or bullets to make it look thorough. When unsure whether a body is needed, leave it out.
+
+## Types
+- `feat` — new feature
+- `fix` — bug fix
+- `refactor` — neither fixes a bug nor adds a feature
+- `perf` — performance improvement
+- `docs` — documentation only
+- `test` — tests only
+- `chore` — tooling, deps, config
+- `style` — formatting only (no code change)
+- `build` — build system / external deps
+- `ci` — CI config
+
+## Hard rules
+- **No `Co-Authored-By` trailers.**
+- **No heredoc / `EOF` wrappers.** Pass the message directly with `-m "..."`. For multi-paragraph bodies, use multiple `-m` flags.
+- **Atomic commits.** Group logically related changes. Don't bundle unrelated work, and don't split one logical change into per-file commits.
+- **Never bypass hooks** (`--no-verify`, `--no-gpg-sign`) unless the user explicitly asks. If a hook fails, fix the underlying issue and create a *new* commit (do not `--amend`).
+- **Prefer new commits over `--amend`** unless the user explicitly requests an amend.
+
+## Pre-commit checklist
+1. `git branch --show-current` — confirm target branch.
+2. `git log --oneline -20` — mirror the repo's prevailing style (scope usage, body length, type vocabulary). Conventional Commits is the floor; the repo's own pattern is the ceiling. If recent commits avoid scopes, you should too; if they're terse one-liners, don't pad yours with bullets.
+3. `git status` — verify nothing unintended is staged.
+4. `git diff --staged` — review the actual change.
+5. If the staged diff spans multiple concerns, unstage and re-stage in logical groups.
+
+## Examples
+- `feat(auth): add oauth2 callback handler`
+- `fix(parser): handle empty input without crashing`
+- `refactor(db): extract query builder into helper`
+- `chore(deps): bump react to 18.3.1`
+- `docs(readme): clarify local setup steps`
+"""

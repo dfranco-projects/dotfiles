@@ -1,0 +1,156 @@
+description = "Deep code review modeled on senior human reviewers. Catches runtime, concurrency, security, regression, and operational issues that standard AI reviews miss. Use when reviewing an MR or branch diff."
+
+prompt = """
+Review code the way senior engineers actually review it: not just "does this work?" but "what does this do to the system at production scale, under concurrency, during deployment, and over time?"
+
+This skill complements linters, type checkers, and shallow bug scans. It focuses on the classes of issues those tools systematically miss.
+
+## Before You Start
+
+1. Get the diff: `git diff origin/main...HEAD` (or the target MR's diff).
+2. Read every changed file in full, not just the diff hunks. Context around the change matters.
+3. For each changed file, check `git log --oneline -10 -- <file>` for recent history. Recent changes to the same area are high-signal.
+
+## Review Dimensions
+
+Work through each dimension against the diff. Skip dimensions that clearly don't apply (e.g., skip "deployment" for a pure frontend CSS change). For each finding, classify severity:
+
+- **Blocking**: will break production, lose data, or create a security hole
+- **Should-fix**: will cause problems under realistic conditions, but won't immediately break
+- **Note**: non-blocking observation, suggestion, or future concern
+
+### 1. Runtime behavior under concurrency
+
+The code runs on Cloud Run (multiple instances, multiple concurrent requests per instance). Every async handler shares one event loop.
+
+**Look for:**
+- Sync calls inside async handlers without `asyncio.to_thread()` (file I/O, CPU-bound processing, `time.sleep`, blocking HTTP clients)
+- Pure Python CPU work that holds the GIL (template rendering, XML parsing, large list comprehensions). While this runs, the event-loop thread gets the GIL in ~5ms slices, slowing every other request on the instance.
+- `asyncio.gather()` without `return_exceptions=True` on fan-out calls (one failure kills all)
+- Missing timeouts on `await` calls, especially for external services
+- Streaming endpoints where the timeout only covers the first chunk but not the full stream
+
+**Verify**: trace the call path from the route handler to the blocking operation. Is it wrapped? What happens to the 80 other requests while it runs?
+
+### 2. Resource exhaustion at production scale
+
+Think about what happens with concurrent requests at the configured instance limits, not just one request in isolation.
+
+**Look for:**
+- `await file.read()` or `request.body()` without enforced server-side size limits (frontend limits are bypassable)
+- Memory budgeting: can N concurrent max-size requests OOM the instance? (Cloud Run instance RAM is finite, OOM kills every in-flight request)
+- Decompression bombs: compressed input (zip, gzip, pptx, xlsx) where only compressed size is checked but decompressed size is unbounded
+- Unbounded result sets from DB queries without LIMIT
+- File handles or connections opened but not closed on error paths
+- Temp files written without cleanup on exception
+
+**Verify**: calculate the worst case. `max_concurrent_requests * max_payload_size` vs instance RAM.
+
+### 3. Security and access control
+
+**Look for:**
+- Endpoints reachable without the UI that bypass frontend-only validation
+- Unscoped queries: can user A read/modify user B's data? Check the WHERE clause.
+- Blob URLs or raw HTML that could execute script on the app origin (XSS via artifacts)
+- Cache entries that cross user boundaries (check if cache keys include user identity)
+- Secrets or tokens logged, returned in error messages, or stored in session state without encryption
+- `Content-Disposition` missing on user-uploaded file downloads (allows script execution)
+
+**Verify**: for access control issues, trace the query from the route handler to the SQL. Is user_id/org_id in the filter?
+
+### 4. Data correctness and silent data loss
+
+**Look for:**
+- Delete-all + re-insert patterns that lose data when partial fields are sent (e.g., `replace_agent_tools` with `tool_configs=None`)
+- Stale closures in React: event handlers that capture state from a previous render, so rapid sequential edits lose intermediate values
+- Two read paths for the same data that can disagree (e.g., one uses cache, one hits DB; one reads from event state, one from artifact)
+- Format/type mismatches between what's stored, what's rendered, and what's exported (e.g., percentage stored as 0.2 but displayed as "0.2" instead of "20%")
+- `ON CONFLICT DO NOTHING` that silently drops data the caller expected to persist
+- Truncation without warning (string fields, numeric precision)
+
+**Verify**: trace the data from write through storage to every read path. Do all paths agree?
+
+### 5. Regression detection
+
+This is the single most valuable check an AI reviewer can do that it almost never does.
+
+**Look for:**
+- Lines removed by the diff that were added by a recent commit for a specific reason. Check `git log --all --oneline -- <file>` and `git log --all --grep="<keyword>"` for the context.
+- Merge-conflict resolution artifacts: check if the branch has a merge commit, and whether the resolution dropped important code from either side
+- Features or guards from previous MRs that this diff removes or weakens. If a null check, error handler, or feature flag was added in a previous MR, its removal needs justification.
+- Enum members or config keys deleted that may still exist in stored data (DB rows, session state, cached objects). Deletion breaks deserialization of existing records.
+
+**Verify**: for each removed block of non-trivial code, run `git log --all -1 -p -S "<distinctive line from the removed block>" -- <file>` to find when and why it was added.
+
+### 6. Concurrency and race conditions
+
+**Look for:**
+- Startup code that runs on every instance without idempotent guards (`INSERT` without `ON CONFLICT`, or SELECT-then-INSERT without a unique constraint)
+- TOCTOU (time-of-check-to-time-of-use): checking a condition, then acting on it without a lock or atomic operation (e.g., "check no active run exists, then insert")
+- Shared mutable state: module-level dicts, class-level caches, or singletons modified by concurrent requests without locks
+- Object URL / blob URL lifecycle: URLs created in one component revoked by LRU eviction while another component still renders them
+- Advisory locks or distributed locks without TTL (deadlock on crash)
+
+**Verify**: "what happens if two requests hit this code at the same instant?"
+
+### 7. Deployment safety
+
+**Look for:**
+- Database migrations that take ACCESS EXCLUSIVE locks on large tables (blocks all reads/writes during migration). ALTER TABLE + UPDATE in one transaction is the classic antipattern.
+- Code that assumes the new DB schema before the migration has run (breaks during rolling deploy when old instances are still running)
+- Removed or renamed API fields that existing clients still send (breaks during rolling deploy)
+- Container startup dependencies: does the Dockerfile CMD match the build output? If SSR is disabled, does the start script still reference the server bundle?
+- New environment variables or secrets required but not documented or provisioned
+
+**Verify**: "what happens during the 30-second window when both old and new instances serve traffic?"
+
+### 8. Operational readiness
+
+**Look for:**
+- New caching layers without eviction policy configuration (Redis without `volatile-lru` or `allkeys-lru`)
+- New external service dependencies without circuit breakers, retries, or fallback behavior
+- Log statements that will fire on every request at INFO level (log noise at scale)
+- Missing metrics or observability for new failure modes
+- Load test results for throughput-sensitive changes
+
+**Verify**: "if this fails at 3am, how does oncall know, and what do they do?"
+
+### 9. Naming and convention enforcement
+
+**Look for:**
+- Names that break established project conventions (check AGENTS.md and existing patterns). Common ones: `Record` suffix for single-row models, `Service` suffix for service classes, enum members for closed vocabularies instead of module-level constants.
+- Misleading names: a function called `get_*` that also mutates, a bool parameter whose name doesn't reveal what `True` means
+- New top-level constants that should be enum members
+- Inconsistent naming across the PR itself (one place says `agent_ref`, another says `agent_name` for the same concept)
+
+### 10. AI-generated code artifacts
+
+**Look for:**
+- Verbose comments that describe what the code does rather than why (AI code generators write these reflexively)
+- Multi-line docstrings on simple methods
+- Unnecessary try/except wrapping when a global error handler already covers the case
+- Over-engineered abstractions for single-use code
+- Defensive code for scenarios that can't happen given the call site
+
+## Output Format
+
+Group findings by severity, then by dimension. For each finding:
+
+```
+**[Severity]** [Dimension]: [one-line summary]
+
+[2-3 sentence explanation with file:line references]
+[What breaks, concretely: "if X happens, then Y"]
+[Fix suggestion if obvious]
+```
+
+If no findings survive verification, say so. Don't invent issues to fill the report.
+
+## What This Review Does NOT Cover
+
+- Formatting, linting, style (CI catches these)
+- Type errors (typecheck catches these)
+- Test coverage metrics
+- Documentation completeness
+- Whether the feature is a good idea (that's the PO's call)
+"""
