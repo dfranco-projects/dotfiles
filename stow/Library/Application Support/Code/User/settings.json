@@ -118,5 +118,6 @@
     },
     "workbench.colorTheme": "Visual Studio 2017 Dark - C++",
     "markdown-preview-enhanced.previewTheme": "night.css",
-    "markdown-preview-enhanced.enablePreviewScripts": true
+    "markdown-preview-enhanced.enablePreviewScripts": true,
+    "vsicons.dontShowNewVersionMessage": true
 }
