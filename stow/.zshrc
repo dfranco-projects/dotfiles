@@ -108,6 +108,15 @@ _repo_web() {  # <gh|glab> [folder|path]
 }
 gho() { _repo_web gh   "$@"; }  # GitHub repo
 glo() { _repo_web glab "$@"; }  # GitLab repo
+tfo() {
+    local base="https://terraform.richemont.com/app/Richemont-International-SA/workspaces"
+    case "$(basename "$PWD")" in
+        42agents-uat) open "$base/ric-gcp-eu-gdo-agent42-nprd-project" ;;
+        42agents-dev) open "$base/ric-gcp-eu-gdo-agent42-dev-nprd-project" ;;
+        42agents-prd) open "$base/ric-gcp-eu-aicoe-general-prd-project" ;;
+        *) echo "tfo: no workspace mapped for $(basename "$PWD")" >&2; return 1 ;;
+    esac
+}
 
 # Open a PR/MR in the browser. No arg = the list; pass a number or branch to
 # open a specific one, e.g. `pr 123` / `mr 42`.
