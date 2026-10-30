@@ -42,6 +42,7 @@ Postman/
 # Editors / IDEs
 .vscode/
 .vscode-shared/
+.sonar/
 
 # AI / assistants
 .agent/
