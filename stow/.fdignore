@@ -22,6 +22,8 @@ __pycache__/
 .rustup/
 .composer/
 .swiftpm/
+.terraform.d/
+.tree-sitter/
 
 # SDKs / dev tools
 google-cloud-sdk/
